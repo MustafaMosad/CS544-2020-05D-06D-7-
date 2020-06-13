@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 
 @Entity
-@SecondaryTable(name = "airline_history")
+@SecondaryTable(name = "history")
 public class Airline {
 
     @Id
@@ -17,7 +17,7 @@ public class Airline {
     @Length(min = 3)
     private String name;
     @Lob
-    @Column(table = "airline_history",nullable = false, columnDefinition = "CLOB")
+    @Column(table = "history")
     private String history;
 
     public Airline(){}
