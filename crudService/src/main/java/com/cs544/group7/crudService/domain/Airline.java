@@ -1,0 +1,56 @@
+package com.cs544.group7.crudService.domain;
+
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.*;
+
+@Entity
+@SecondaryTable(name = "airline_history")
+public class Airline {
+
+    @Id
+    @GeneratedValue
+    private long id;
+    @Column(length = 2, nullable = false)
+    private String code;
+    @Column(nullable = false)
+    @Length(min = 3)
+    private String name;
+    @Lob
+    @Column(table = "airline_history",nullable = false, columnDefinition = "CLOB")
+    private String history;
+
+    public Airline(){}
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getHistory() {
+        return history;
+    }
+
+    public void setHistory(String history) {
+        this.history = history;
+    }
+}
