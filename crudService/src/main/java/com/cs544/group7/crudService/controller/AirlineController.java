@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/airline")
+@RequestMapping("/airlines")
 @Api(description = "Airline Controller handles all endpoints related to Airline Crud Operations")
 public class AirlineController {
 
     @Autowired
     AirlineService airlineService;
 
-    @PostMapping(value = "/saveAirline")
+    @PostMapping
     public void saveAirline(@RequestBody AirlineRequest airline){
        airlineService.saveAirline(airline);
     }
@@ -32,22 +32,22 @@ public class AirlineController {
         return airlineService.getAirlineByName(name);
     }
 
-    @GetMapping("/allAirlines")
+    @GetMapping
     public List<AirlineResponse> getAllAirlines(){
         return airlineService.getAllAirlines();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteAirline(@PathVariable Long id){
         airlineService.deleteAirline(id);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public void deleteAllAirlines(){
         airlineService.deleteAll();
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public void updateAirline(@PathVariable Long id, String code, String name){
         airlineService.updateAirline(id, code, name);
     }
