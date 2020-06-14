@@ -1,5 +1,7 @@
 package com.cs544.group7.crudService.domain;
 
+import java.util.Date;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,7 +9,7 @@ public class Flight {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Integer id;
     
     @Column(length = 4, nullable = false)
     private int flight_number;
@@ -18,10 +20,22 @@ public class Flight {
     @ManyToOne
     @JoinColumn(name = "destination_id")
     private Airport destination;
-
+    
+    @Temporal(TemporalType.TIME)
+    private Date destinationTime;
+    
+    @Temporal(TemporalType.DATE)
+    private Date destinationDate;
+    
     @ManyToOne
     @JoinColumn(name = "origin_id")
     private Airport origin;
+    
+    @Temporal(TemporalType.TIME)
+    private Date originTime;
+    
+    @Temporal(TemporalType.DATE)
+    private Date originDate;
     
     @ManyToOne
     @JoinColumn(name = "airlineid")
@@ -31,18 +45,18 @@ public class Flight {
     public Flight(){}
     
     // parameterized constructor
+
+//    public Flight(int flight_number, int capacity) {
+//		super();
+//		this.flight_number = flight_number;
+//		this.capacity = capacity;
+//	}
     
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public Flight(int flight_number, int capacity) {
-		super();
-		this.flight_number = flight_number;
-		this.capacity = capacity;
-	}
-
-	public void setId(long id) {
+	public void setId(Integer id) {
         this.id = id;
     }
 
@@ -69,16 +83,49 @@ public class Flight {
     public void setDestination(Airport destination) {
         this.destination = destination;
     }
+    
+    public Date getDestinationTime() {
+		return destinationTime;
+	}
+    
+	public Date getDestinationDate() {
+		return destinationDate;
+	}
 
-    public Airport getOrigin() {
+	public void setDestinationDate(Date destinationDate) {
+		this.destinationDate = destinationDate;
+	}
+	
+	public void setDestinationTime(Date destinationTime) {
+		this.destinationTime = destinationTime;
+	}
+
+	public Airport getOrigin() {
         return origin;
     }
 
     public void setOrigin(Airport origin) {
         this.origin = origin;
     }
+    
+    public Date getOriginTime() {
+		return originTime;
+	}
 
-    public Airline getAirline() {
+	public void setOriginTime(Date originTime) {
+		this.originTime = originTime;
+	}
+	
+
+	public Date getOriginDate() {
+		return originDate;
+	}
+
+	public void setOriginDate(Date originDate) {
+		this.originDate = originDate;
+	}
+
+	public Airline getAirline() {
         return airline;
     }
 
