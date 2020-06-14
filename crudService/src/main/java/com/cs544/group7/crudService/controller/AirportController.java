@@ -1,4 +1,4 @@
-package com.cs544.group7.crudService.airport.controller;
+package com.cs544.group7.crudService.controller;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cs544.group7.crudService.airport.req.RequestAirport;
-import com.cs544.group7.crudService.airport.res.ResponseAirport;
-import com.cs544.group7.crudService.airport.service.AirportService;
 import com.cs544.group7.crudService.domain.Address;
+import com.cs544.group7.crudService.req.RequestAirport;
+import com.cs544.group7.crudService.resp.ResponseAirport;
+import com.cs544.group7.crudService.service.AirportService;
 
 import io.swagger.annotations.Api;
 
