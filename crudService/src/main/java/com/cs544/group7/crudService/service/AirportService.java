@@ -13,11 +13,11 @@ import com.cs544.group7.crudService.resp.ResponseAirport;
 		
 		public List<ResponseAirport> getAllAirports();
 		
-		public ResponseAirport findAirportById(Integer id);
+		public ResponseAirport findAirportById(Long id);
 		
-		public void deleteAirport(Integer id);
+		public void deleteAirport(Long id);
 		
 		public void updateAirport(Airport airport);
 		
-		public void updateAirport(Integer id, String code, String name, Address address);
+		public void updateAirport(Long id, String code, String name, Address address);
 	}
