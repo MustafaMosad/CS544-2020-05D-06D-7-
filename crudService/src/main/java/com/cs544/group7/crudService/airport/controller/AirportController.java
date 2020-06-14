@@ -28,13 +28,13 @@ public class AirportController {
 	AirportService airportService;
 
 	@GetMapping
-	public List<ResponseAirport> getAirlines() {
+	public List<ResponseAirport> getAirports() {
 		System.out.println("From here");
 		return airportService.getAllAirports();
 	}
 
 	@PostMapping
-	public String addFlight(@RequestBody RequestAirport requestAirport) {
+	public String addAirport(@RequestBody RequestAirport requestAirport) {
 		System.out.println("From here");
 		airportService.addAirport(requestAirport);
 		return "redirect:/airports/list";
