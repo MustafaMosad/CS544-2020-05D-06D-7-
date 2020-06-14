@@ -2,29 +2,24 @@ package com.cs544.group7.crudService.controller;
 
 import com.cs544.group7.crudService.domain.Airline;
 import com.cs544.group7.crudService.service.AirlineService;
-import com.cs544.group7.crudService.service.response.AirlineResponse;
+import com.cs544.group7.crudService.service.dto.AirlineRequest;
+import com.cs544.group7.crudService.service.dto.AirlineResponse;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.ServletContext;
 import java.util.List;
 
 @RestController
 @RequestMapping("/airline")
+@Api(description = "Airline Controller handles all endpoints related to Airline Crud Operations")
 public class AirlineController {
 
     @Autowired
     AirlineService airlineService;
 
     @PostMapping(value = "/saveAirline")
-    public Airline saveAirline(@RequestBody Airline airline){
-
-        return airlineService.saveAirline(airline);
-    }
-
-    @PostMapping(value = "/saveAirlines")
-    public List<Airline> saveAllAirlines(@RequestBody List<Airline> airlines){
-        return airlineService.saveAllAirlines(airlines);
+    public void saveAirline(@RequestBody AirlineRequest airline){
+       airlineService.saveAirline(airline);
     }
 
     @GetMapping("/{id}")
@@ -42,14 +37,19 @@ public class AirlineController {
         return airlineService.getAllAirlines();
     }
 
-    @DeleteMapping(params = {"airline"})
-    public void deleteAirline(@RequestParam Airline airline){
-        airlineService.deleteAirline(airline);
+    @DeleteMapping("/delete/{id}")
+    public void deleteAirline(@PathVariable Long id){
+        airlineService.deleteAirline(id);
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("/delete")
     public void deleteAllAirlines(){
         airlineService.deleteAll();
+    }
+
+    @PutMapping("/update/{id}")
+    public void updateAirline(@PathVariable Long id, String code, String name){
+        airlineService.updateAirline(id, code, name);
     }
 
 

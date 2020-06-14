@@ -1,25 +1,15 @@
-package com.cs544.group7.crudService.service.response;
+package com.cs544.group7.crudService.service.dto;
 
-public class AirlineResponse {
+public class AirlineRequest {
 
-    private long id;
     private String code;
     private String name;
     private String history;
 
-    public AirlineResponse(long id, String code, String name, String history){
-        this.id = id;
+    public AirlineRequest(String code, String name, String history){
         this.code = code;
         this.name = name;
         this.history = history;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getCode() {

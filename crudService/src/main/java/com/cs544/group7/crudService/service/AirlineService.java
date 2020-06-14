@@ -1,15 +1,14 @@
 package com.cs544.group7.crudService.service;
 
 import com.cs544.group7.crudService.domain.Airline;
-import com.cs544.group7.crudService.service.response.AirlineResponse;
+import com.cs544.group7.crudService.service.dto.AirlineRequest;
+import com.cs544.group7.crudService.service.dto.AirlineResponse;
 
 import java.util.List;
 
 public interface AirlineService {
 
-    List<Airline> saveAllAirlines(List<Airline> airlines);
-
-    Airline saveAirline(Airline airline);
+    void saveAirline(AirlineRequest airline);
 
     AirlineResponse getAirlineById(Long id);
 
@@ -17,7 +16,11 @@ public interface AirlineService {
 
     List<AirlineResponse> getAllAirlines();
 
-    void deleteAirline(Airline airline);
+    void deleteAirline(Long id);
 
     void deleteAll();
+
+    void updateAirline(Airline airline);
+
+    void updateAirline(Long id, String code, String name);
 }

@@ -3,7 +3,8 @@ package com.cs544.group7.crudService.service.implementation;
 import com.cs544.group7.crudService.domain.Airline;
 import com.cs544.group7.crudService.repository.AirlineRespository;
 import com.cs544.group7.crudService.service.AirlineService;
-import com.cs544.group7.crudService.service.response.AirlineResponse;
+import com.cs544.group7.crudService.service.dto.AirlineRequest;
+import com.cs544.group7.crudService.service.dto.AirlineResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,20 +19,19 @@ public class AirlineServiceImp implements AirlineService {
     @Autowired
     AirlineRespository airlineRespository;
 
-
     @Override
-    public List<Airline> saveAllAirlines(List<Airline> airlines) {
-        return airlineRespository.saveAll(airlines);
-    }
+    public void saveAirline(AirlineRequest airlineRequest) {
+        Airline airline = new Airline();
+        airline.setCode(airlineRequest.getCode());
+        airline.setName(airlineRequest.getName());
+        airline.setHistory(airlineRequest.getHistory());
 
-    @Override
-    public Airline saveAirline(Airline airline) {
-        return airlineRespository.save(airline);
+        airlineRespository.save(airline);
+
     }
 
     @Override
     public AirlineResponse getAirlineById(Long id) {
-
         return airlineRespository.findById(id).map(this::convertAirlineToAirlineResponse).get();
     }
 
@@ -42,15 +42,15 @@ public class AirlineServiceImp implements AirlineService {
 
     @Override
     public List<AirlineResponse> getAllAirlines() {
-
         return airlineRespository.findAll().stream().parallel()
                 .map(this::convertAirlineToAirlineResponse)
                 .collect(Collectors.toList());
+
     }
 
     @Override
-    public void deleteAirline(Airline airline) {
-        airlineRespository.delete(airline);
+    public void deleteAirline(Long id) {
+        airlineRespository.deleteById(id);
     }
 
     @Override
@@ -58,7 +58,24 @@ public class AirlineServiceImp implements AirlineService {
         airlineRespository.deleteAll();
     }
 
-    private AirlineResponse convertAirlineToAirlineResponse(Airline airline) {
-        return new AirlineResponse(airline.getId(), airline.getCode(),airline.getName(), airline.getHistory());
+    @Override
+    public void updateAirline(Airline airline) {
+        airlineRespository.save(airline);
     }
+
+    @Override
+    public void updateAirline(Long id, String code, String name) {
+        Airline airline = airlineRespository.getOne(id);
+        airline.setCode(code);
+        airline.setName(name);
+
+        updateAirline(airline);
+
+    }
+
+    private AirlineResponse convertAirlineToAirlineResponse(Airline airline) {
+        return new AirlineResponse(airline.getCode(),airline.getName(), airline.getHistory());
+    }
+
+
 }
