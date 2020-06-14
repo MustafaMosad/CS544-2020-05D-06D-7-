@@ -41,17 +41,17 @@ public class AirportController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseAirport getAirportById(@PathVariable Integer id) {
+	public ResponseAirport getAirportById(@PathVariable Long id) {
 		return airportService.findAirportById(id);
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void deleteAirport(@PathVariable Integer id) {
+	public void deleteAirport(@PathVariable Long id) {
 		airportService.deleteAirport(id);
 	}
 
 	@PutMapping(value = "/{id}")
-	public String updateAirport(@PathVariable Integer id, String code, String name, Address address) {
+	public String updateAirport(@PathVariable Long id, String code, String name, Address address) {
 		airportService.updateAirport(id, code, name, address);
 		return "redirect:/airports/" + id;
 	}

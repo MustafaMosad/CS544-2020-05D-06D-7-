@@ -37,13 +37,13 @@ public class AirportServiceImpl implements AirportService {
 	}
 
 	@Override
-	public ResponseAirport findAirportById(Integer id) {
+	public ResponseAirport findAirportById(Long id) {
 		return airportRepository.findById(id)
 				.map(airport -> new ResponseAirport(airport.getCode(), airport.getName(), airport.getAddress())).get();
 	}
 
 	@Override
-	public void deleteAirport(Integer id) {
+	public void deleteAirport(Long id) {
 		airportRepository.deleteById(id);
 
 	}
@@ -55,7 +55,7 @@ public class AirportServiceImpl implements AirportService {
 	}
 
 	@Override
-	public void updateAirport(Integer id, String code, String name, Address address) {
+	public void updateAirport(Long id, String code, String name, Address address) {
 		Airport airport = airportRepository.getOne(id);
 		airport.setCode(code);
 		airport.setName(name);
