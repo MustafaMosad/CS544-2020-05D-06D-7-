@@ -34,27 +34,27 @@ public class FlightServiceImpl implements FlightService {
 	public void addFlight(RequestFlight requestFlight) {
 		Airline airline = airlineRepository.findByCode(requestFlight.getAirlineCode());
 		Airport destinationAirport = airportRepository.findByCode(requestFlight.getDestinationAirportCode());
-		Airport originAirport = airportRepository.findByCode(requestFlight.getOriginAirportCode());
+		Airport originAirport = airportRepository.findByCode(requestFlight.getArrivalAirportCode());
 
 		Flight flight = new Flight();
-		flight.setDestination(destinationAirport);
-		flight.setOrigin(originAirport);
+		flight.setDestinationAirport(destinationAirport);
+		flight.setArrivalAirport(originAirport);
 		flight.setFlight_number(requestFlight.getFlight_number());
 		flight.setCapacity(requestFlight.getCapacity());
 		flight.setDestinationTime(requestFlight.getDestinationTime());
 		flight.setDestinationDate(requestFlight.getDestinationDate());
-		flight.setOriginTime(requestFlight.getOriginTime());
-		flight.setOriginDate(requestFlight.getOriginDate());
+		flight.setArrivalTime(requestFlight.getArrivalTime());
+		flight.setArrivalDate(requestFlight.getArrivalDate());
 		flight.setAirline(airline);
 
 		flightRepository.save(flight);
 	}
-
 	@Override
 	public List<ResponseFlight> getAllFlights() {
 		return flightRepository.findAll().stream()
-				.map(flight -> new ResponseFlight(flight.getFlight_number(), flight.getDestinationTime(),
-						flight.getDestinationDate(), flight.getOriginTime(), flight.getOriginDate()))
+				.map(flight->new ResponseFlight(flight.getFlight_number(), flight.getDestinationAirport().getName(), 
+						flight.getDestinationTime(), flight.getDestinationDate(), flight.getArrivalAirport().getName(),
+						flight.getArrivalTime(), flight.getArrivalDate(), flight.getAirline().getName()))
 				.collect(Collectors.toList());
 	}
 
@@ -63,15 +63,15 @@ public class FlightServiceImpl implements FlightService {
 
 		// Temporal
 		return flightRepository.findById(id)
-				.map(flight -> new ResponseFlight(flight.getFlight_number(), flight.getDestinationTime(),
-						flight.getDestinationDate(), flight.getOriginTime(), flight.getOriginDate()))
+				.map(flight -> new ResponseFlight(flight.getFlight_number(), flight.getDestinationAirport().getName(), 
+						flight.getDestinationTime(), flight.getDestinationDate(), flight.getArrivalAirport().getName(),
+						flight.getArrivalTime(), flight.getArrivalDate(), flight.getAirline().getName()))
 				.get();
 	}
 
 	@Override
 	public void deleteFlight(Integer id) {
 		flightRepository.deleteById(id);
-
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class FlightServiceImpl implements FlightService {
 	public void updateFlight(Integer id, Date destinationTime, Date originTime) {
 		Flight flight = flightRepository.getOne(id);
 		flight.setDestinationTime(destinationTime);
-		flight.setOriginTime(originTime);
+		flight.setArrivalTime(originTime);
 		updateFlight(flight);
 	}
 
