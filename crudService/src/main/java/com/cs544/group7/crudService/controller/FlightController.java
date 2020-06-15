@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cs544.group7.crudService.req.RequestFlight;
@@ -29,12 +30,12 @@ public class FlightController {
 	
 	@GetMapping
 	public List<ResponseFlight> getFlights(){
-		System.out.println("From here");
+		
 		return flightService.getAllFlights();
 	}
 	@PostMapping
 	public String addFlight(@RequestBody RequestFlight requestFlight) {
-		System.out.println("From here");
+		
 		flightService.addFlight(requestFlight);
 		return "redirect:/flights/list";
 	}
@@ -49,9 +50,10 @@ public class FlightController {
 		flightService.deleteFlight(id);
 	}
 	
-	@PutMapping(value = "/{id}")
-	public String updateFlight(@PathVariable Integer id, Date destinationTime, Date originTime) {
-		flightService.updateFlight(id, destinationTime, originTime);
+	@PutMapping(value = "/{id}", params = {"destinationTime", "arrivalTime"})
+	public String updateFlight(@PathVariable Integer id, @RequestParam Date destinationTime, @RequestParam Date arrivalTime) {
+		
+		flightService.updateFlight(id, destinationTime, arrivalTime);
 		return "redirect:/flights/" + id;
 	}
 	

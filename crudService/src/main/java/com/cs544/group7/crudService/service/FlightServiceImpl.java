@@ -80,10 +80,11 @@ public class FlightServiceImpl implements FlightService {
 	}
 
 	@Override
-	public void updateFlight(Integer id, Date destinationTime, Date originTime) {
+	public void updateFlight(Integer id, Date destinationTime, Date arrivalTime) {
+		
 		Flight flight = flightRepository.getOne(id);
 		flight.setDestinationTime(destinationTime);
-		flight.setArrivalTime(originTime);
+		flight.setArrivalTime(arrivalTime);
 		updateFlight(flight);
 	}
 
