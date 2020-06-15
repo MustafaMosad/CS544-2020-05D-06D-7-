@@ -22,13 +22,13 @@ public class RequestFlight {
 	@Temporal(TemporalType.DATE)
 	private Date destinationDate;
 	 
-	private String originAirportCode;
+	private String arrivalAirportCode;
 	
 	@Temporal(TemporalType.TIME)
-	private Date originTime;
+	private Date arrivalTime;
 	
 	@Temporal(TemporalType.DATE)
-	private Date originDate;
+	private Date arrivalDate;
 	
 	private String airlineCode;
 	
@@ -37,8 +37,8 @@ public class RequestFlight {
 	
 	//parameterized constructor 
 	public RequestFlight(int flight_number, int capacity, String destinationAirportCode, 
-							Date destinationTime, Date destinationDate, String originAirportCode, 
-							Date originTime, Date originDate, String airlineCode) 
+							Date destinationTime, Date destinationDate, String arrivalAirportCode, 
+							Date arrivalTime, Date arrivalDate, String airlineCode) 
 	{
 		super();
 		this.flight_number = flight_number;
@@ -46,9 +46,9 @@ public class RequestFlight {
 		this.destinationAirportCode = destinationAirportCode;
 		this.destinationTime = destinationTime;
 		this.destinationDate = destinationDate;
-		this.originAirportCode = originAirportCode;
-		this.originTime = originTime;
-		this.originDate = originDate;
+		this.arrivalAirportCode = arrivalAirportCode;
+		this.arrivalTime = arrivalTime;
+		this.arrivalDate = arrivalDate;
 		this.airlineCode = airlineCode;
 	}
 
@@ -93,28 +93,28 @@ public class RequestFlight {
 		this.destinationDate = destinationDate;
 	}
 
-	public String getOriginAirportCode() {
-		return originAirportCode;
+	public String getArrivalAirportCode() {
+		return arrivalAirportCode;
 	}
 
-	public void setOriginAirportCode(String originAirportCode) {
-		this.originAirportCode = originAirportCode;
+	public void setArrivalAirportCode(String arrivalAirportCode) {
+		this.arrivalAirportCode = arrivalAirportCode;
 	}
 
-	public Date getOriginTime() {
-		return originTime;
+	public Date getArrivalTime() {
+		return arrivalTime;
 	}
 
-	public void setOriginTime(Date originTime) {
-		this.originTime = originTime;
+	public void setArrivalTime(Date arrivalTime) {
+		this.arrivalTime = arrivalTime;
 	}
 
-	public Date getOriginDate() {
-		return originDate;
+	public Date getArrivalDate() {
+		return arrivalDate;
 	}
 
-	public void setOriginDate(Date originDate) {
-		this.originDate = originDate;
+	public void setArrivalDate(Date arrivalDate) {
+		this.arrivalDate = arrivalDate;
 	}
 
 	public String getAirlineCode() {
