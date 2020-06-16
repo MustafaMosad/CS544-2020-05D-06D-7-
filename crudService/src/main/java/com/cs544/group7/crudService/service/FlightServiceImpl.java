@@ -100,4 +100,13 @@ public class FlightServiceImpl implements FlightService {
 				flight.getArrivalTime(), flight.getArrivalDate(), flight.getAirline().getName());
 	}
 
+	@Override
+	public List<ResponseFlight> getFlightByDepartureAirportCode(String departureAirPortCode, String arrivalAirPortCode, Date departureDate) {
+		return flightRepository.getFlightByDepartureAirportCode(departureAirPortCode, arrivalAirPortCode, departureDate)
+				.stream()
+				.parallel()
+				.map(this::convertFlightToFlightResponse)
+				.collect(Collectors.toList());
+	}
+
 }

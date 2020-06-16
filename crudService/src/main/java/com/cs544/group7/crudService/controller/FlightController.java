@@ -57,4 +57,9 @@ public class FlightController {
 		return "redirect:/flights/" + id;
 	}
 	
+	@GetMapping(value="/flightsPerdayBetweenAirports", params= {"departureAirPortCode", "arrivalAirPortCode", "departureDate"})
+	public List<ResponseFlight> findAllFlightBetweenDepartureAirportAndArrivalAirport(String departureAirPortCode, String arrivalAirPortCode, Date departureDate){
+		return flightService.getFlightByDepartureAirportCode(departureAirPortCode, arrivalAirPortCode, departureDate);
+	}
+	
 }

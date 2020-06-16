@@ -20,4 +20,6 @@ public interface FlightService {
 	public void updateFlight(Flight flight);
 	
 	public void updateFlight(Integer id, Date destinationTime, Date originTime);
+	
+	List<ResponseFlight> getFlightByDepartureAirportCode(String departureAirPortCode, String arrivalAirPortCode, Date departureDate);
 }
