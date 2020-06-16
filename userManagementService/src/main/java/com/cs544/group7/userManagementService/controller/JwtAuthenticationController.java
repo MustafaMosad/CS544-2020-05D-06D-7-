@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cs544.group7.userManagementService.exception.custom.AuthenticationException;
 import com.cs544.group7.userManagementService.res.TokenValidationResponse;
 import com.cs544.group7.userManagementService.security.dto.req.JwtTokenRequest;
+import com.cs544.group7.userManagementService.security.dto.req.ValidateTokenRequest;
 import com.cs544.group7.userManagementService.security.dto.res.JwtTokenResponse;
 import com.cs544.group7.userManagementService.security.util.JwtTokenUtil;
 import com.cs544.group7.userManagementService.service.AuthenticationService;
@@ -63,8 +64,8 @@ public class JwtAuthenticationController {
 
 	@RequestMapping(value = "/validate", method = RequestMethod.POST)
 	@ApiOperation(value = "validate Token", response = TokenValidationResponse.class)
-	public TokenValidationResponse validateToken(@RequestBody String token) {
-		return authService.validateToken(token);
+	public TokenValidationResponse validateToken(@RequestBody ValidateTokenRequest validateTokenRequest) {
+		return authService.validateToken(validateTokenRequest);
 	}
 
 	/**
