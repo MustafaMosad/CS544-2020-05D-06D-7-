@@ -6,7 +6,7 @@ public class ResponseFlight {
 
 	private int flight_number;
 
-	private String destinationAirport;
+	private String departureAirport;
 
 	private Date destinationTime;
 
@@ -23,10 +23,10 @@ public class ResponseFlight {
 	public ResponseFlight() {
 	}
 
-	public ResponseFlight(int flight_number, String destinationAirport, Date destinationTime, Date destinationDate,
+	public ResponseFlight(int flight_number, String departureAirport, Date destinationTime, Date destinationDate,
 			String arrivalAirport, Date arrivalTime, Date arrivalDate, String airlineName) {
 		this.flight_number = flight_number;
-		this.destinationAirport = destinationAirport;
+		this.departureAirport = departureAirport;
 		this.destinationTime = destinationTime;
 		this.destinationDate = destinationDate;
 		this.arrivalAirport = arrivalAirport;
@@ -43,12 +43,12 @@ public class ResponseFlight {
 		this.flight_number = flight_number;
 	}
 
-	public String getDestinationAirport() {
-		return destinationAirport;
+	public String getDepartureAirport() {
+		return departureAirport;
 	}
 
-	public void setDestinationAirport(String destinationAirport) {
-		this.destinationAirport = destinationAirport;
+	public void setDepartureAirport(String departureAirport) {
+		this.departureAirport = departureAirport;
 	}
 
 	public Date getDestinationTime() {
