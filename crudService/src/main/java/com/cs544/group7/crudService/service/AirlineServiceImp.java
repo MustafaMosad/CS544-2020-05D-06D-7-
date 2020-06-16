@@ -1,14 +1,17 @@
 package com.cs544.group7.crudService.service;
 
 import com.cs544.group7.crudService.domain.Airline;
+import com.cs544.group7.crudService.domain.Airport;
 import com.cs544.group7.crudService.repository.AirlineRespository;
 import com.cs544.group7.crudService.req.AirlineRequest;
 import com.cs544.group7.crudService.resp.AirlineResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +42,12 @@ public class AirlineServiceImp implements AirlineService {
     public AirlineResponse getAirlineByName(String name) {
         return convertAirlineToAirlineResponse(airlineRespository.findByName(name));
     }
+
+    @Override
+    public List<AirlineResponse> getAirlineByAirportCode(String airportCode) {
+        return convertAirlineListToAirlineResponseList(airlineRespository.getAllAirlinesOutOfAnAirport(airportCode));
+    }
+
 
     @Override
     public List<AirlineResponse> getAllAirlines() {
@@ -77,5 +86,14 @@ public class AirlineServiceImp implements AirlineService {
         return new AirlineResponse(airline.getCode(),airline.getName(), airline.getHistory());
     }
 
+    private List<AirlineResponse> convertAirlineListToAirlineResponseList(List<Airline> airline) {
+        AirlineResponse airlineResponse;
+        List<AirlineResponse> responseList = new ArrayList<>();
+        for(Airline a : airline){
+            airlineResponse = new AirlineResponse(a.getCode(),a.getName(), a.getHistory());
+            responseList.add(airlineResponse);
+        }
+        return responseList;
+    }
 
 }

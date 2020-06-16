@@ -7,6 +7,8 @@ import com.cs544.group7.crudService.service.AirlineService;
 
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -53,5 +55,9 @@ public class AirlineController {
         airlineService.updateAirline(id, code, name);
     }
 
+    @GetMapping(params = {"airlineCode"})
+    public List<AirlineResponse> getAirlineByAirportCode(@RequestParam String airlineCode){
+        return airlineService.getAirlineByAirportCode(airlineCode);
+    }
 
 }

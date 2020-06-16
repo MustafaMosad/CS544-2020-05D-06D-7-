@@ -51,9 +51,9 @@ public class FlightController {
 	}
 	
 	@PutMapping(value = "/{id}", params = {"destinationTime", "arrivalTime"})
-	public String updateFlight(@PathVariable Integer id, @RequestParam Date destinationTime, @RequestParam Date arrivalTime) {
+	public String updateFlight(@PathVariable Integer id, @RequestParam Date departureTime, @RequestParam Date arrivalTime) {
 		
-		flightService.updateFlight(id, destinationTime, arrivalTime);
+		flightService.updateFlight(id, departureTime, arrivalTime);
 		return "redirect:/flights/" + id;
 	}
 	
