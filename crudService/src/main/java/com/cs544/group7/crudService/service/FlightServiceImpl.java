@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.cs544.group7.crudService.resp.AirlineResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,12 +37,12 @@ public class FlightServiceImpl implements FlightService {
 		Airport originAirport = airportRepository.findByCode(requestFlight.getArrivalAirportCode());
 
 		Flight flight = new Flight();
-		flight.setDestinationAirport(destinationAirport);
+		flight.setDepartureAirport(destinationAirport);
 		flight.setArrivalAirport(originAirport);
 		flight.setFlight_number(requestFlight.getFlight_number());
 		flight.setCapacity(requestFlight.getCapacity());
-		flight.setDestinationTime(requestFlight.getDestinationTime());
-		flight.setDestinationDate(requestFlight.getDestinationDate());
+		flight.setDepartureTime(requestFlight.getDestinationTime());
+		flight.setDepartureDate(requestFlight.getDestinationDate());
 		flight.setArrivalTime(requestFlight.getArrivalTime());
 		flight.setArrivalDate(requestFlight.getArrivalDate());
 		flight.setAirline(airline);
@@ -88,14 +87,14 @@ public class FlightServiceImpl implements FlightService {
 	@Override
 	public void updateFlight(Integer id, Date destinationTime, Date originTime) {
 		Flight flight = flightRepository.getOne(id);
-		flight.setDestinationTime(destinationTime);
+		flight.setDepartureTime(destinationTime);
 		flight.setArrivalTime(originTime);
 		updateFlight(flight);
 	}
 
 	private ResponseFlight convertFlightToFlightResponse(Flight flight) {
-		return new ResponseFlight(flight.getFlight_number(), flight.getDestinationAirport().getName(),
-				flight.getDestinationTime(), flight.getDestinationDate(), flight.getArrivalAirport().getName(), flight.getArrivalTime(), flight.getArrivalDate(),
+		return new ResponseFlight(flight.getFlight_number(), flight.getDepartureAirport().getName(),
+				flight.getDepartureTime(), flight.getDepartureDate(), flight.getArrivalAirport().getName(), flight.getArrivalTime(), flight.getArrivalDate(),
 				flight.getAirline().getName());
 	}
 

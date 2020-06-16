@@ -18,14 +18,14 @@ public class Flight {
     private int capacity;
 
     @ManyToOne
-    @JoinColumn(name = "destinationAirport_id")
-    private Airport destinationAirport;
+    @JoinColumn(name = "departureAirport_id")
+    private Airport departureAirport;
     
     @Temporal(TemporalType.TIME)
-    private Date destinationTime;
+    private Date departureTime;
     
     @Temporal(TemporalType.DATE)
-    private Date destinationDate;
+    private Date departureDate;
     
     @ManyToOne
     @JoinColumn(name = "arrivalAirport_id")
@@ -68,28 +68,28 @@ public class Flight {
         this.capacity = capacity;
     }
 
-    public Airport getDestinationAirport() {
-        return destinationAirport;
+    public Airport getDepartureAirport() {
+        return departureAirport;
     }
 
-    public void setDestinationAirport(Airport destinationAirport) {
-        this.destinationAirport = destinationAirport;
+    public void setDepartureAirport(Airport departureAirport) {
+        this.departureAirport = departureAirport;
     }
     
-    public Date getDestinationTime() {
-		return destinationTime;
+    public Date getDepartureTime() {
+		return departureTime;
 	}
     
-	public Date getDestinationDate() {
-		return destinationDate;
+	public Date getDepartureDate() {
+		return departureDate;
 	}
 
-	public void setDestinationDate(Date destinationDate) {
-		this.destinationDate = destinationDate;
+	public void setDepartureDate(Date departureDate) {
+		this.departureDate = departureDate;
 	}
 	
-	public void setDestinationTime(Date destinationTime) {
-		this.destinationTime = destinationTime;
+	public void setDepartureTime(Date departureTime) {
+		this.departureTime = departureTime;
 	}
 
 	public Airport getArrivalAirport() {
