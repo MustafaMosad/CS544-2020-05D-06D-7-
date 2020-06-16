@@ -6,6 +6,10 @@ import javax.persistence.*;
 
 @Entity
 @SecondaryTable(name = "history")
+@NamedQuery(
+        name="Airline.getAllAirlinesOutOfAnAirport",
+        query = "SELECT distinct a FROM Flight f JOIN f.airline a WHERE f.destinationAirport.code=:airportCode"
+)
 public class Airline {
 
     @Id
