@@ -1,5 +1,8 @@
 package com.cs544.group7.emailService.dto;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(description = "All details about requested email ")
 public class EmailDto {
 	
 	    private String to;
