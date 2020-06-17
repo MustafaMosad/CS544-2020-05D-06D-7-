@@ -57,14 +57,15 @@ public class ReservationServiceImpl implements ReservationService {
 //		}
 //		for(int i=0; i< convertSetTolist.length;i++) {
 //			System.out.println("I have been here to get flights");
-//			
-//		}
-		
+//			return reservedFlights;
 		return reservedFlights;
+		}
+		
+		
 
-	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
-		return new ArrayList<ResponseFlight>();
-	}
+//	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
+//		return new ArrayList<ResponseFlight>();
+//	}
 
 	private String getPasssengerFirstName(Long passengerId) {
 		return passengerId.toString();
