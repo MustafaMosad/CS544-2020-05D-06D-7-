@@ -3,6 +3,8 @@ package com.cs544.group7.crudService.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,10 +14,14 @@ import com.cs544.group7.crudService.domain.Airport;
 import com.cs544.group7.crudService.repository.AirportRepository;
 import com.cs544.group7.crudService.req.RequestAirport;
 import com.cs544.group7.crudService.resp.ResponseAirport;
+import com.cs544.group7.crudService.security.resp.TokenValidationResponse;
 
 @Service
 @Transactional
 public class AirportServiceImpl implements AirportService {
+
+	@Autowired
+	private ServletContext servletContext;
 
 	@Autowired
 	AirportRepository airportRepository;
@@ -31,6 +37,9 @@ public class AirportServiceImpl implements AirportService {
 
 	@Override
 	public List<ResponseAirport> getAllAirports() {
+		System.out.println(
+				"hhhhhhhhhhhh " + ((TokenValidationResponse) servletContext.getAttribute("userInfo")).getFirstName());
+
 		return airportRepository.findAll().stream()
 				.map(airport -> new ResponseAirport(airport.getCode(), airport.getName(), airport.getAddress()))
 				.collect(Collectors.toList());

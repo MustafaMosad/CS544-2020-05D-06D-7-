@@ -1,7 +1,10 @@
-package com.cs544.group7.userManagementService.res;
+package com.cs544.group7.crudService.security.resp;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TokenValidationResponse {
 
 	private Long id;

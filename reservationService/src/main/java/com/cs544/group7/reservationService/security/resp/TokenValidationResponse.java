@@ -1,4 +1,4 @@
-package com.cs544.group7.userManagementService.res;
+package com.cs544.group7.reservationService.security.resp;
 
 import java.util.List;
 

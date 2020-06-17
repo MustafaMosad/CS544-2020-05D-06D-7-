@@ -1,4 +1,4 @@
-package com.cs544.group7.userManagementService.security.model;
+package com.cs544.group7.crudService.security.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
