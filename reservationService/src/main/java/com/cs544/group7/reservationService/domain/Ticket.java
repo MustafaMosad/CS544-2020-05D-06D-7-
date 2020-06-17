@@ -19,8 +19,8 @@ public class Ticket {
 	private String passsengerFirstName;
 	private String passengerLastName;
 	private Integer seatNumber;
-	private Date destinationTime;
-	private Date destinationDate;
+	private Date departureTime;
+	private Date departureDate;
 	private Date arrivalTime;
 	private Date arrivalDate;
 
@@ -90,20 +90,20 @@ public class Ticket {
 		this.seatNumber = seatNumber;
 	}
 
-	public Date getDestinationTime() {
-		return destinationTime;
+	public Date getDepartureTime() {
+		return departureTime;
 	}
 
-	public void setDestinationTime(Date destinationTime) {
-		this.destinationTime = destinationTime;
+	public void setDepartureTime(Date departureTime) {
+		this.departureTime = departureTime;
 	}
 
-	public Date getDestinationDate() {
-		return destinationDate;
+	public Date getDepartureDate() {
+		return departureDate;
 	}
 
-	public void setDestinationDate(Date destinationDate) {
-		this.destinationDate = destinationDate;
+	public void setDepartureDate(Date departureDate) {
+		this.departureDate = departureDate;
 	}
 
 	public Date getArrivalTime() {

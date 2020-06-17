@@ -10,17 +10,17 @@ import io.swagger.annotations.ApiModel;
 @ApiModel(description = "All details about requested flight ")
 public class RequestFlight {
 	
-	private int flight_number;
+	private Integer flightNumber;
 	
-	private int capacity;
+	private Integer capacity;
 	 
-	private String destinationAirportCode;
+	private String departureAirportCode;
 	
 	@Temporal(TemporalType.TIME)
-	private Date destinationTime;
+	private Date departureTime;
 	
 	@Temporal(TemporalType.DATE)
-	private Date destinationDate;
+	private Date departureDate;
 	 
 	private String arrivalAirportCode;
 	
@@ -36,16 +36,16 @@ public class RequestFlight {
 	public RequestFlight() {}
 	
 	//parameterized constructor 
-	public RequestFlight(int flight_number, int capacity, String destinationAirportCode, 
-							Date destinationTime, Date destinationDate, String arrivalAirportCode, 
+	public RequestFlight(Integer flightNumber, Integer capacity, String departureAirportCode, 
+							Date departureTime, Date departureDate, String arrivalAirportCode, 
 							Date arrivalTime, Date arrivalDate, String airlineCode) 
 	{
 		super();
-		this.flight_number = flight_number;
+		this.flightNumber = flightNumber;
 		this.capacity = capacity;
-		this.destinationAirportCode = destinationAirportCode;
-		this.destinationTime = destinationTime;
-		this.destinationDate = destinationDate;
+		this.departureAirportCode = departureAirportCode;
+		this.departureTime = departureTime;
+		this.departureDate = departureDate;
 		this.arrivalAirportCode = arrivalAirportCode;
 		this.arrivalTime = arrivalTime;
 		this.arrivalDate = arrivalDate;
@@ -53,44 +53,44 @@ public class RequestFlight {
 	}
 
 
-	public int getFlight_number() {
-		return flight_number;
+	public Integer getFlightNumber() {
+		return flightNumber;
 	}
 
-	public void setFlight_number(int flight_number) {
-		this.flight_number = flight_number;
+	public void setFlightNumber(Integer flightNumber) {
+		this.flightNumber = flightNumber;
 	}
 
-	public int getCapacity() {
+	public Integer getCapacity() {
 		return capacity;
 	}
 
-	public void setCapacity(int capacity) {
+	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
 
-	public String getDestinationAirportCode() {
-		return destinationAirportCode;
+	public String getDepartureAirportCode() {
+		return departureAirportCode;
 	}
 
-	public void setDestinationAirportCode(String destinationAirportCode) {
-		this.destinationAirportCode = destinationAirportCode;
+	public void setDepartureAirportCode(String departureAirportCode) {
+		this.departureAirportCode = departureAirportCode;
 	}
 
-	public Date getDestinationTime() {
-		return destinationTime;
+	public Date getDepartureTime() {
+		return departureTime;
 	}
 
-	public void setDestinationTime(Date destinationTime) {
-		this.destinationTime = destinationTime;
+	public void setDepartureTime(Date departureTime) {
+		this.departureTime = departureTime;
 	}
 
-	public Date getDestinationDate() {
-		return destinationDate;
+	public Date getDepartureDate() {
+		return departureDate;
 	}
 
-	public void setDestinationDate(Date destinationDate) {
-		this.destinationDate = destinationDate;
+	public void setDepartureDate(Date departureDate) {
+		this.departureDate = departureDate;
 	}
 
 	public String getArrivalAirportCode() {

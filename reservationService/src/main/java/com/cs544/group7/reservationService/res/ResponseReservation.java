@@ -3,7 +3,7 @@ package com.cs544.group7.reservationService.res;
 import java.util.Date;
 import java.util.List;
 
-public class ReservationResponse {
+public class ResponseReservation {
 
 	private String reservationCode;
 	private List<ResponseFlight> flights;
@@ -11,6 +11,19 @@ public class ReservationResponse {
 	private Date createdAt;
 	private String passsengerFirstName;
 	private String passengerLastName;
+	
+
+	public ResponseReservation(String reservationCode, List<ResponseFlight> flights, boolean isConfirmed,
+			Date createdAt, String passsengerFirstName, String passengerLastName) 
+	{
+		
+		this.reservationCode = reservationCode;
+		this.flights = flights;
+		this.isConfirmed = isConfirmed;
+		this.createdAt = createdAt;
+		this.passsengerFirstName = passsengerFirstName;
+		this.passengerLastName = passengerLastName;
+	}
 
 	public List<ResponseFlight> getFlights() {
 		return flights;

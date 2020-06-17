@@ -1,18 +1,19 @@
 package com.cs544.group7.reservationService.req;
 
-import java.util.List;
 
-public class NewReservationRequest {
+import java.util.Set;
 
-	private Integer passengerId;
+public class RequestReservation {
+
+	private Long passengerId;
 	private Integer AgentId;
-	private List<Integer> FlightNumbers;
+	private Set<Integer> FlightNumbers;
 
-	public Integer getPassengerId() {
+	public Long getPassengerId() {
 		return passengerId;
 	}
 
-	public void setPassengerId(Integer passengerId) {
+	public void setPassengerId(Long passengerId) {
 		this.passengerId = passengerId;
 	}
 
@@ -24,11 +25,11 @@ public class NewReservationRequest {
 		AgentId = agentId;
 	}
 
-	public List<Integer> getFlightNumbers() {
+	public Set<Integer> getFlightNumbers() {
 		return FlightNumbers;
 	}
 
-	public void setFlightNumber(List<Integer> flightNumbers) {
+	public void setFlightNumber(Set<Integer> flightNumbers) {
 		FlightNumbers = flightNumbers;
 	}
 

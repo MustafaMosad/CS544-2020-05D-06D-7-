@@ -9,7 +9,7 @@ import com.cs544.group7.crudService.resp.ResponseFlight;
 
 public interface FlightService {
 	
-	public void addFlight(RequestFlight requestFlight);
+	public ResponseFlight addFlight(RequestFlight requestFlight);
 	
 	public List<ResponseFlight> getAllFlights();
 	
@@ -19,5 +19,9 @@ public interface FlightService {
 	
 	public void updateFlight(Flight flight);
 	
-	public void updateFlight(Integer id, Date destinationTime, Date originTime);
+	public void updateFlight(Integer id, Date departureTime, Date arrivalTime);
+	
+	public ResponseFlight findFlightByFlightNumber(Integer flightNumber);
+	
+	List<ResponseFlight> getFlightByDepartureAirportCode(String departureAirPortCode, String arrivalAirPortCode, Date departureDate);
 }

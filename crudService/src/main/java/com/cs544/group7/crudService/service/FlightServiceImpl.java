@@ -31,30 +31,30 @@ public class FlightServiceImpl implements FlightService {
 	AirportRepository airportRepository;
 
 	@Override
-	public void addFlight(RequestFlight requestFlight) {
+	public ResponseFlight addFlight(RequestFlight requestFlight) {
 		Airline airline = airlineRepository.findByCode(requestFlight.getAirlineCode());
-		Airport destinationAirport = airportRepository.findByCode(requestFlight.getDestinationAirportCode());
+		Airport departureAirport = airportRepository.findByCode(requestFlight.getDepartureAirportCode());
 		Airport originAirport = airportRepository.findByCode(requestFlight.getArrivalAirportCode());
 
 		Flight flight = new Flight();
-		flight.setDepartureAirport(destinationAirport);
+		flight.setDepartureAirport(departureAirport);
 		flight.setArrivalAirport(originAirport);
-		flight.setFlight_number(requestFlight.getFlight_number());
+		flight.setFlightNumber(requestFlight.getFlightNumber());
 		flight.setCapacity(requestFlight.getCapacity());
-		flight.setDepartureTime(requestFlight.getDestinationTime());
-		flight.setDepartureDate(requestFlight.getDestinationDate());
+		flight.setDepartureTime(requestFlight.getDepartureTime());
+		flight.setDepartureDate(requestFlight.getDepartureDate());
 		flight.setArrivalTime(requestFlight.getArrivalTime());
 		flight.setArrivalDate(requestFlight.getArrivalDate());
 		flight.setAirline(airline);
 
-		flightRepository.save(flight);
+		return convertFlightToFlightResponse(flightRepository.save(flight));
 	}
 
 	@Override
 	public List<ResponseFlight> getAllFlights() {
 //		return flightRepository.findAll().stream()
-//				.map(flight->new ResponseFlight(flight.getFlight_number(), flight.getDestinationAirport().getName(),
-//						flight.getDestinationTime(), flight.getDestinationDate(), flight.getArrivalAirport().getName(),
+//				.map(flight->new ResponseFlight(flight.getflightNumber(), flight.getdepartureAirport().getName(),
+//						flight.getdepartureTime(), flight.getdepartureDate(), flight.getArrivalAirport().getName(),
 //						flight.getArrivalTime(), flight.getArrivalDate(), flight.getAirline().getName()))
 //				.collect(Collectors.toList());
 
@@ -67,8 +67,8 @@ public class FlightServiceImpl implements FlightService {
 
 		// Temporal
 //		return flightRepository.findById(id)
-//				.map(flight -> new ResponseFlight(flight.getFlight_number(), flight.getDestinationAirport().getName(),
-//						flight.getDestinationTime(), flight.getDestinationDate(), flight.getArrivalAirport().getName(),
+//				.map(flight -> new ResponseFlight(flight.getflightNumber(), flight.getdepartureAirport().getName(),
+//						flight.getdepartureTime(), flight.getdepartureDate(), flight.getArrivalAirport().getName(),
 //						flight.getArrivalTime(), flight.getArrivalDate(), flight.getAirline().getName()))
 //				.get();
 		return flightRepository.findById(id).map(this::convertFlightToFlightResponse).get();
@@ -95,9 +95,23 @@ public class FlightServiceImpl implements FlightService {
 	}
 
 	private ResponseFlight convertFlightToFlightResponse(Flight flight) {
-		return new ResponseFlight(flight.getFlight_number(), flight.getDepartureAirport().getName(),
+		return new ResponseFlight(flight.getFlightNumber(), flight.getDepartureAirport().getName(),
 				flight.getDepartureTime(), flight.getDepartureDate(), flight.getArrivalAirport().getName(),
 				flight.getArrivalTime(), flight.getArrivalDate(), flight.getAirline().getName());
+	}
+
+	@Override
+	public List<ResponseFlight> getFlightByDepartureAirportCode(String departureAirPortCode, String arrivalAirPortCode,
+			Date departureDate) {
+		return flightRepository.getFlightByDepartureAirportCode(departureAirPortCode, arrivalAirPortCode, departureDate)
+				.stream().parallel().map(this::convertFlightToFlightResponse).collect(Collectors.toList());
+	}
+
+	@Override
+	public ResponseFlight findFlightByFlightNumber(Integer flightNumber) {
+		System.out.println("I am here");
+		return convertFlightToFlightResponse(flightRepository.getByFlightNumber(flightNumber));
+//		return flightRepository.getByFlightNumber(flightNumber).map(this::convertFlightToFlightResponse).get();
 	}
 
 }
