@@ -15,7 +15,7 @@ public class Airline {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(length = 2, nullable = false)
+    @Column(length = 3, nullable = false)
     private String code;
     @Column(nullable = false)
     @Length(min = 3)

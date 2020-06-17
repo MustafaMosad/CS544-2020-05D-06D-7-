@@ -31,7 +31,7 @@ public class FlightServiceImpl implements FlightService {
 	AirportRepository airportRepository;
 
 	@Override
-	public void addFlight(RequestFlight requestFlight) {
+	public ResponseFlight addFlight(RequestFlight requestFlight) {
 		Airline airline = airlineRepository.findByCode(requestFlight.getAirlineCode());
 		Airport destinationAirport = airportRepository.findByCode(requestFlight.getDestinationAirportCode());
 		Airport originAirport = airportRepository.findByCode(requestFlight.getArrivalAirportCode());
@@ -47,7 +47,7 @@ public class FlightServiceImpl implements FlightService {
 		flight.setArrivalDate(requestFlight.getArrivalDate());
 		flight.setAirline(airline);
 
-		flightRepository.save(flight);
+		return convertFlightToFlightResponse(flightRepository.save(flight));
 	}
 	@Override
 	public List<ResponseFlight> getAllFlights() {
@@ -93,9 +93,12 @@ public class FlightServiceImpl implements FlightService {
 	}
 
 	private ResponseFlight convertFlightToFlightResponse(Flight flight) {
-		return new ResponseFlight(flight.getFlight_number(), flight.getDepartureAirport().getName(),
-				flight.getDepartureTime(), flight.getDepartureDate(), flight.getArrivalAirport().getName(), flight.getArrivalTime(), flight.getArrivalDate(),
-				flight.getAirline().getName());
+		String departureAirportName = flight.getDepartureAirport() == null?null:flight.getDepartureAirport().getName();
+		String arrivalAirportName = flight.getArrivalAirport() == null?null:flight.getArrivalAirport().getName();
+		String airlineCode = flight.getAirline() == null?null:flight.getAirline().getName();
+		return new ResponseFlight(flight.getId(), flight.getFlight_number(), departureAirportName,
+				flight.getDepartureTime(), flight.getDepartureDate(), arrivalAirportName, flight.getArrivalTime(), flight.getArrivalDate(),
+				airlineCode);
 	}
 
 }

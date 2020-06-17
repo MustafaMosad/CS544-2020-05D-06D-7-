@@ -88,15 +88,4 @@ public class AirlineTest {
         Assertions.assertThrows(Exception.class, ()-> service.getAirlineById(res.getId()));
     }
 
-//    @Test
-//    public void deleteAllAirlines(){
-//        AirlineRequest a = new AirlineRequest("BR", "Brussels","Brussels Airlines has been serving for over 150 years");
-//        AirlineRequest b = new AirlineRequest("TR", "Turkish","Turkish Airlines has been serving for over 150 years");
-//        service.saveAirline(a);
-//        service.saveAirline(b);
-//
-//        service.deleteAll();
-//        Assertions.assertEquals((double) service.getAllAirlines().toArray().length, null);
-//    }
-
 }
