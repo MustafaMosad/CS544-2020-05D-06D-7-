@@ -2,18 +2,22 @@ package com.cs544.group7.reservationService.res;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ResponseFlight {
 
-	private int flight_number;
+	private Integer flightNumber;
 
 	private String departureAirport;
+//	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+	@JsonFormat(pattern="HH:mm:ss")
+	private Date departureTime;
 
-	private Date destinationTime;
-
-	private Date destinationDate;
+	private Date departureDate;
 
 	private String arrivalAirport;
-
+	
+	@JsonFormat(pattern="HH:mm:ss")
 	private Date arrivalTime;
 
 	private Date arrivalDate;
@@ -23,24 +27,24 @@ public class ResponseFlight {
 	public ResponseFlight() {
 	}
 
-	public ResponseFlight(int flight_number, String departureAirport, Date destinationTime, Date destinationDate,
+	public ResponseFlight(Integer flightNumber, String departureAirport, Date departureTime, Date departureDate,
 			String arrivalAirport, Date arrivalTime, Date arrivalDate, String airlineName) {
-		this.flight_number = flight_number;
+		this.flightNumber = flightNumber;
 		this.departureAirport = departureAirport;
-		this.destinationTime = destinationTime;
-		this.destinationDate = destinationDate;
+		this.departureTime = departureTime;
+		this.departureDate = departureDate;
 		this.arrivalAirport = arrivalAirport;
 		this.arrivalTime = arrivalTime;
 		this.arrivalDate = arrivalDate;
 		this.airlineName = airlineName;
 	}
 
-	public int getFlight_number() {
-		return flight_number;
+	public Integer getFlightNumber() {
+		return flightNumber;
 	}
 
-	public void setFlight_number(int flight_number) {
-		this.flight_number = flight_number;
+	public void setFlightNumber(Integer flightNumber) {
+		this.flightNumber = flightNumber;
 	}
 
 	public String getDepartureAirport() {
@@ -51,20 +55,20 @@ public class ResponseFlight {
 		this.departureAirport = departureAirport;
 	}
 
-	public Date getDestinationTime() {
-		return destinationTime;
+	public Date getDepartureTime() {
+		return departureTime;
 	}
 
-	public void setDestinationTime(Date destinationTime) {
-		this.destinationTime = destinationTime;
+	public void setDepartureTime(Date departureTime) {
+		this.departureTime = departureTime;
 	}
 
-	public Date getDestinationDate() {
-		return destinationDate;
+	public Date getDepartureDate() {
+		return departureDate;
 	}
 
-	public void setDestinationDate(Date destinationDate) {
-		this.destinationDate = destinationDate;
+	public void setDepartureDate(Date departureDate) {
+		this.departureDate = departureDate;
 	}
 
 	public String getArrivalAirport() {

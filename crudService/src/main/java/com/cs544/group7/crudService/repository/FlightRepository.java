@@ -12,7 +12,8 @@ import com.cs544.group7.crudService.domain.Flight;
 
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Integer> {
-//	public List<Flight> getByDepartureAirportCode(String code);
+	
+	public Flight getByFlightNumber(Integer flightNumber);
 	
 	@Query("select f from Flight f where f.arrivalAirport.code=:arri and f.departureDate=:depDate" )
 	public List<Flight> getFlightByDepartureAirportCode(String dep, @Param("arri")String arri, 

@@ -19,10 +19,10 @@ public class Flight {
 	private Integer id;
 
 	@Column(length = 4, nullable = false)
-	private int flight_number;
+	private Integer flightNumber;
 
 	@Column(nullable = false)
-	private int capacity;
+	private Integer capacity;
 
 	@ManyToOne
 	@JoinColumn(name = "departureAirport_id")
@@ -60,19 +60,19 @@ public class Flight {
 		this.id = id;
 	}
 
-	public int getFlight_number() {
-		return flight_number;
+	public Integer getFlightNumber() {
+		return flightNumber;
 	}
 
-	public void setFlight_number(int flight_number) {
-		this.flight_number = flight_number;
+	public void setFlightNumber(Integer flightNumber) {
+		this.flightNumber = flightNumber;
 	}
 
-	public int getCapacity() {
+	public Integer getCapacity() {
 		return capacity;
 	}
 
-	public void setCapacity(int capacity) {
+	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
 

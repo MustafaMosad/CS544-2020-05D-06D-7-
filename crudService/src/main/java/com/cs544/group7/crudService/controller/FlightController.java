@@ -50,7 +50,7 @@ public class FlightController {
 		flightService.deleteFlight(id);
 	}
 	
-	@PutMapping(value = "/{id}", params = {"destinationTime", "arrivalTime"})
+	@PutMapping(value = "/{id}", params = {"departureTime", "arrivalTime"})
 	public String updateFlight(@PathVariable Integer id, @RequestParam Date departureTime, @RequestParam Date arrivalTime) {
 		
 		flightService.updateFlight(id, departureTime, arrivalTime);
@@ -62,4 +62,8 @@ public class FlightController {
 		return flightService.getFlightByDepartureAirportCode(departureAirPortCode, arrivalAirPortCode, departureDate);
 	}
 	
+	@GetMapping(value="/flight/{flightNumber}")
+	public ResponseFlight getFlightByFlightNumber(@PathVariable Integer flightNumber) {
+		return flightService.findFlightByFlightNumber(flightNumber);
+	}
 }

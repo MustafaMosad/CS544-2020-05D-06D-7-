@@ -7,15 +7,15 @@ import javax.persistence.TemporalType;
 
 public class ResponseFlight {
 	
-	private int flight_number;
+	private Integer flightNumber;
 	 
-	private String destinationAirport;
+	private String departureAirport;
 	
 	@Temporal(TemporalType.TIME)
-	private Date destinationTime;
+	private Date departureTime;
 	
 	@Temporal(TemporalType.DATE)
-	private Date destinationDate;
+	private Date departureDate;
 	 
 	private String arrivalAirport;
 	
@@ -29,50 +29,50 @@ public class ResponseFlight {
 
 	public ResponseFlight() {}
 
-	public ResponseFlight(int flight_number, String destinationAirport, Date destinationTime,
-							Date destinationDate,String arrivalAirport, Date arrivalTime, 
+	public ResponseFlight(Integer flightNumber, String departureAirport, Date departureTime,
+							Date departureDate,String arrivalAirport, Date arrivalTime, 
 							Date arrivalDate, String airlineName) 
 	{
-		this.flight_number = flight_number;
-		this.destinationAirport = destinationAirport;
-		this.destinationTime = destinationTime;
-		this.destinationDate = destinationDate;
+		this.flightNumber = flightNumber;
+		this.departureAirport = departureAirport;
+		this.departureTime = departureTime;
+		this.departureDate = departureDate;
 		this.arrivalAirport = arrivalAirport;
 		this.arrivalTime = arrivalTime;
 		this.arrivalDate = arrivalDate;
 		this.airlineName = airlineName;
 	}
 	
-	public int getFlight_number() {
-		return flight_number;
+	public Integer getFlightNumber() {
+		return flightNumber;
 	}
 
-	public void setFlight_number(int flight_number) {
-		this.flight_number = flight_number;
+	public void setFlightNumber(Integer flightNumber) {
+		this.flightNumber = flightNumber;
 	}
 
-	public String getDestinationAirport() {
-		return destinationAirport;
+	public String getDepartureAirport() {
+		return departureAirport;
 	}
 
-	public void setDestinationAirport(String destinationAirport) {
-		this.destinationAirport = destinationAirport;
+	public void setDepartureAirport(String departureAirport) {
+		this.departureAirport = departureAirport;
 	}
 
-	public Date getDestinationTime() {
-		return destinationTime;
+	public Date getDepartureTime() {
+		return departureTime;
 	}
 
-	public void setDestinationTime(Date destinationTime) {
-		this.destinationTime = destinationTime;
+	public void setDepartureTime(Date departureTime) {
+		this.departureTime = departureTime;
 	}
 
-	public Date getDestinationDate() {
-		return destinationDate;
+	public Date getDepartureDate() {
+		return departureDate;
 	}
 
-	public void setDestinationDate(Date destinationDate) {
-		this.destinationDate = destinationDate;
+	public void setDepartureDate(Date departureDate) {
+		this.departureDate = departureDate;
 	}
 
 	public String getArrivalAirport() {
