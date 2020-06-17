@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +19,15 @@ import com.cs544.group7.reservationService.repository.ReservationRepository;
 import com.cs544.group7.reservationService.req.RequestReservation;
 import com.cs544.group7.reservationService.res.ResponseFlight;
 import com.cs544.group7.reservationService.res.ResponseReservation;
+import com.cs544.group7.reservationService.security.resp.TokenValidationResponse;
 import com.cs544.group7.reservationService.util.CrudServiceCaller;
 
 @Service
 @Transactional
 public class ReservationServiceImpl implements ReservationService {
+
+	@Autowired
+	private ServletContext servletContext;
 
 	@Autowired
 	ReservationRepository reservationRepository;
@@ -42,14 +48,14 @@ public class ReservationServiceImpl implements ReservationService {
 				getPasssengerFirstName(reservation.getPassengerId()),
 				getPasssengerFirstName(reservation.getPassengerId()));
 	}
-	
-	private List<ResponseFlight> reservedFlights (Set<Integer> reservedFlightNumbers){
+
+	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
 		List<ResponseFlight> reservedFlights = new ArrayList<ResponseFlight>();
 //		Integer[] convertSetTolist = (Integer[]) reservedFlightNumbers.toArray();
 		System.out.println("from here");
-		
+
 		Iterator<Integer> value = reservedFlightNumbers.iterator();
-		while(value.hasNext()) {
+		while (value.hasNext()) {
 			reservedFlights.add(crudServiceCaller.getFlight(value.next()));
 		}
 //		reservedFlightNumbers.iterator(){
@@ -59,9 +65,7 @@ public class ReservationServiceImpl implements ReservationService {
 //			System.out.println("I have been here to get flights");
 //			return reservedFlights;
 		return reservedFlights;
-		}
-		
-		
+	}
 
 //	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
 //		return new ArrayList<ResponseFlight>();
@@ -107,6 +111,15 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public List<ResponseReservation> getPassengerReservations(Long passengerId) {
 		return reservationRepository.findByPassengerId(passengerId).stream().parallel()
+				.map(this::convertReservationToReservationResponse).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ResponseReservation> getAgentReservations() {
+		TokenValidationResponse userInfo = ((TokenValidationResponse) servletContext.getAttribute("userInfo"));
+
+		Long agentId = userInfo.getId();
+		return reservationRepository.findByMadeByAgentId(agentId).stream().parallel()
 				.map(this::convertReservationToReservationResponse).collect(Collectors.toList());
 	}
 

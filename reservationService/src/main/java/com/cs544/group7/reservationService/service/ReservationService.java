@@ -19,4 +19,6 @@ public interface ReservationService {
 	public void cancelReservation(String reservationCode);
 	
 	public ResponseFlight getFlight(Integer flightNumber);
+
+	List<ResponseReservation> getAgentReservations();
 }

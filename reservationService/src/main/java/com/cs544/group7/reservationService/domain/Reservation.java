@@ -12,8 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 
-import org.springframework.beans.factory.annotation.Value;
-
 @Entity
 public class Reservation {
 
@@ -32,12 +30,12 @@ public class Reservation {
 
 	private Long madeByUserId;
 
-	private Integer madeByAgentId;
+	private Long madeByAgentId;
 
 	private boolean isConfirmed;
 
 	private boolean isCancelled;
-	
+
 //	@Value("#{new java.text.SimpleDateFormat(\\\"yyyyMMdd\\\").parse(\\\"${PROP_DATE}\\\")}")
 	private Date createdAt;
 
@@ -75,11 +73,11 @@ public class Reservation {
 		this.madeByUserId = madeByUserId;
 	}
 
-	public Integer getMadeByAgentId() {
+	public Long getMadeByAgentId() {
 		return madeByAgentId;
 	}
 
-	public void setMadeByAgentId(Integer madeByAgentId) {
+	public void setMadeByAgentId(Long madeByAgentId) {
 		this.madeByAgentId = madeByAgentId;
 	}
 

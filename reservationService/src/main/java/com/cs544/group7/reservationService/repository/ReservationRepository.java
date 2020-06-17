@@ -13,5 +13,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 	public Reservation findByReservationCode(String reservationCode);
 	
 	public List<Reservation> findByPassengerId(Long passengerId);
+	
+	public List<Reservation> findByMadeByAgentId(Long madeByAgentId);
+	
 
 }
