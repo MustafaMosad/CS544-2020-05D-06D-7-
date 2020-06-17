@@ -2,6 +2,7 @@ package com.cs544.group7.reservationService.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -41,10 +42,30 @@ public class ReservationServiceImpl implements ReservationService {
 				getPasssengerFirstName(reservation.getPassengerId()),
 				getPasssengerFirstName(reservation.getPassengerId()));
 	}
+	
+	private List<ResponseFlight> reservedFlights (Set<Integer> reservedFlightNumbers){
+		List<ResponseFlight> reservedFlights = new ArrayList<ResponseFlight>();
+//		Integer[] convertSetTolist = (Integer[]) reservedFlightNumbers.toArray();
+		System.out.println("from here");
+		
+		Iterator<Integer> value = reservedFlightNumbers.iterator();
+		while(value.hasNext()) {
+			reservedFlights.add(crudServiceCaller.getFlight(value.next()));
+		}
+//		reservedFlightNumbers.iterator(){
+//			
+//		}
+//		for(int i=0; i< convertSetTolist.length;i++) {
+//			System.out.println("I have been here to get flights");
+//			return reservedFlights;
+		return reservedFlights;
+		}
+		
+		
 
-	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
-		return new ArrayList<ResponseFlight>();
-	}
+//	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
+//		return new ArrayList<ResponseFlight>();
+//	}
 
 	private String getPasssengerFirstName(Long passengerId) {
 		return passengerId.toString();
@@ -52,6 +73,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public void addNewReservation(RequestReservation requestReservation) {
+		System.out.println("From here i am printing");
 
 		reservationRepository.save(convertRequestReservationToReservation(requestReservation));
 
@@ -63,8 +85,10 @@ public class ReservationServiceImpl implements ReservationService {
 		reservation.setPassengerId(requestReservation.getPassengerId());
 		reservation.setMadeByAgentId(requestReservation.getAgentId());
 		reservation.setMadeByUserId(requestReservation.getPassengerId());
+		System.out.println(requestReservation.getPassengerId());
 		reservation.setFlightNumbers(requestReservation.getFlightNumbers());
 		reservation.setCreatedAt(new Date());
+		System.out.println("From here i am printing too");
 		return reservation;
 
 	}

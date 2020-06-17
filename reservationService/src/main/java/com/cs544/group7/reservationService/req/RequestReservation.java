@@ -7,7 +7,7 @@ public class RequestReservation {
 
 	private Long passengerId;
 	private Integer AgentId;
-	private Set<Integer> FlightNumbers;
+	private Set<Integer> flightNumbers;
 
 	public Long getPassengerId() {
 		return passengerId;
@@ -26,11 +26,11 @@ public class RequestReservation {
 	}
 
 	public Set<Integer> getFlightNumbers() {
-		return FlightNumbers;
+		return flightNumbers;
 	}
 
-	public void setFlightNumber(Set<Integer> flightNumbers) {
-		FlightNumbers = flightNumbers;
+	public void setFlightNumbers(Set<Integer> flightNumbers) {
+		this.flightNumbers = flightNumbers;
 	}
 
 }
