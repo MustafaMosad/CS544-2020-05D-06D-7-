@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.cs544.group7.userManagementService.res.TokenValidationResponse;
 import com.cs544.group7.userManagementService.security.dto.req.ValidateTokenRequest;
+import com.cs544.group7.userManagementService.security.model.JwtUserDetails;
 import com.cs544.group7.userManagementService.security.util.JwtTokenUtil;
 
 @Service
@@ -28,7 +29,6 @@ public class AuthenticationService {
 		TokenValidationResponse tokenValidationResponse = new TokenValidationResponse();
 
 		try {
-			System.out.println("heeeeey // " + validateTokenRequest.getToken());
 			username = jwtTokenUtil.getUsernameFromToken(validateTokenRequest.getToken());
 
 			if (username != null) {
@@ -36,7 +36,7 @@ public class AuthenticationService {
 				UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
 
 				if (jwtTokenUtil.validateToken(validateTokenRequest.getToken(), userDetails)) {
-					return constructTokenResponse(userDetails, tokenValidationResponse);
+					return constructTokenResponse((JwtUserDetails) userDetails, tokenValidationResponse);
 				}
 			}
 		} catch (Exception e) {
@@ -46,11 +46,15 @@ public class AuthenticationService {
 		return tokenValidationResponse;
 	}
 
-	private TokenValidationResponse constructTokenResponse(UserDetails userDetails,
+	private TokenValidationResponse constructTokenResponse(JwtUserDetails userDetails,
 			TokenValidationResponse tokenValidationResponse) {
 
 		tokenValidationResponse.setValid(true);
+		tokenValidationResponse.setId(userDetails.getId());
 		tokenValidationResponse.setUsername(userDetails.getUsername());
+		tokenValidationResponse.setFirstName(userDetails.getFirstName());
+		tokenValidationResponse.setLastName(userDetails.getLastName());
+		tokenValidationResponse.setUserType(userDetails.getUserType());
 		List<String> authorities = new ArrayList<String>();
 
 		for (GrantedAuthority authority : userDetails.getAuthorities()) {

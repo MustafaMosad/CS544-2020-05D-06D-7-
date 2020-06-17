@@ -36,8 +36,12 @@ public class JwtUserDetailsService implements UserDetailsService {
 		}
 		logger.info("End of loadUserByUsername {} ", user.getRoles().iterator().next().getName());
 
-		return new JwtUserDetails(user.getId(), user.getEmail(), user.getPassword(),
-				user.getRoles().iterator().next().getName());
+		JwtUserDetails userDetails = new JwtUserDetails(user.getId(), user.getEmail(), user.getPassword(),
+					user.getRoles().iterator().next().getName());
+		 userDetails.setFirstName(user.getFirstName());
+		 userDetails.setLastName(user.getLastName());
+		 userDetails.setUserType(user.getClass().getSimpleName());
+		return userDetails;
 	}
 
 }

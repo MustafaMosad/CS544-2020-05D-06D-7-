@@ -16,6 +16,9 @@ public class JwtUserDetails implements UserDetails {
 
 	private Long id;
 	private String username;
+	private String firstName;
+	private String lastName;
+	private String userType;
 	private String password;
 	private Collection<? extends GrantedAuthority> authorities;
 
@@ -81,5 +84,35 @@ public class JwtUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	
 
 }

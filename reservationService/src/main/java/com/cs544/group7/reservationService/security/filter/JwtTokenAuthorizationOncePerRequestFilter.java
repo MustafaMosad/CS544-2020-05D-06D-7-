@@ -3,6 +3,7 @@ package com.cs544.group7.reservationService.security.filter;
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,9 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	@Autowired
+	private ServletContext servletContext;
+
 	@Value("${jwt.http.request.header}")
 	private String tokenHeader;
 
@@ -47,6 +51,8 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
 					.authenticateUser(requestTokenHeader);
 
 			if (tokenValidationResponse.isValid()) {
+				servletContext.setAttribute("userInfo", tokenValidationResponse);
+
 				UserDetails userDetails = new JwtUserDetails(tokenValidationResponse.getUsername(),
 						tokenValidationResponse.getAuthorites().get(0));
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
