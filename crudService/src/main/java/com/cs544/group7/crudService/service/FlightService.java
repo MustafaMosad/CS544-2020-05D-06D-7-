@@ -9,7 +9,7 @@ import com.cs544.group7.crudService.resp.ResponseFlight;
 
 public interface FlightService {
 	
-	public void addFlight(RequestFlight requestFlight);
+	public ResponseFlight addFlight(RequestFlight requestFlight);
 	
 	public List<ResponseFlight> getAllFlights();
 	

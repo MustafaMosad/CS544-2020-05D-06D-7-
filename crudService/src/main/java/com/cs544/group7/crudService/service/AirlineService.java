@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AirlineService {
 
-    void saveAirline(AirlineRequest airline);
+    AirlineResponse saveAirline(AirlineRequest airline);
 
     AirlineResponse getAirlineById(Long id);
 

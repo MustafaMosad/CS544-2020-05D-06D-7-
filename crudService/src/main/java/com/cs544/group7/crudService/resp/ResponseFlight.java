@@ -6,45 +6,48 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 public class ResponseFlight {
-	
+
+	private Integer id;
+
 	private Integer flightNumber;
-	 
+
 	private String departureAirport;
-	
+
 	@Temporal(TemporalType.TIME)
 	private Date departureTime;
-	
+
 	@Temporal(TemporalType.DATE)
 	private Date departureDate;
-	 
+
 	private String arrivalAirport;
-	
+
 	@Temporal(TemporalType.TIME)
 	private Date arrivalTime;
-	
+
 	@Temporal(TemporalType.DATE)
 	private Date arrivalDate;
-	
+
 	private String airlineName;
 
-	public ResponseFlight() {}
+	public ResponseFlight() {
+	}
 
-	public ResponseFlight(Integer flightNumber, String departureAirport, Date departureTime,
-							Date departureDate,String arrivalAirport, Date arrivalTime, 
-							Date arrivalDate, String airlineName) 
-	{
+	public ResponseFlight(Integer flightNumber, String departureAirport, Date departureTime, Date departureDate,
+			String arrivalAirport, Date arrivalTime, Date arrivalDate, String airlineName) {
 		this.flightNumber = flightNumber;
 		this.departureAirport = departureAirport;
 		this.departureTime = departureTime;
 		this.departureDate = departureDate;
+
 		this.arrivalAirport = arrivalAirport;
 		this.arrivalTime = arrivalTime;
 		this.arrivalDate = arrivalDate;
 		this.airlineName = airlineName;
 	}
-	
+
 	public Integer getFlightNumber() {
 		return flightNumber;
+
 	}
 
 	public void setFlightNumber(Integer flightNumber) {
@@ -106,6 +109,5 @@ public class ResponseFlight {
 	public void setAirlineName(String airlineName) {
 		this.airlineName = airlineName;
 	}
-	
-	
+
 }
