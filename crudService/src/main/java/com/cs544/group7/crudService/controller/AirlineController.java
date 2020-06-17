@@ -22,7 +22,8 @@ public class AirlineController {
 
     @PostMapping
     public void saveAirline(@RequestBody AirlineRequest airline){
-       airlineService.saveAirline(airline);
+
+        airlineService.saveAirline(airline);
     }
 
     @GetMapping("/{id}")
@@ -37,6 +38,7 @@ public class AirlineController {
 
     @GetMapping
     public List<AirlineResponse> getAllAirlines(){
+
         return airlineService.getAllAirlines();
     }
 

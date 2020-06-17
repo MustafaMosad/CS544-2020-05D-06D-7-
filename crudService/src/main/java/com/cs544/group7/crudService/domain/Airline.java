@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Airline {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(length = 2, nullable = false)
     private String code;
