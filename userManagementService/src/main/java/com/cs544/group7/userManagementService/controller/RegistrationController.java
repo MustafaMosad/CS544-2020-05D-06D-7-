@@ -44,7 +44,7 @@ public class RegistrationController {
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
-	public ResponseEntity<?> registerUser(@RequestBody @Valid RegistrationForm registrationForm)
+	public ResponseEntity<?> registerUser(@RequestBody  RegistrationForm registrationForm)
 			throws EmailAlreadyExistException, URISyntaxException {
 
 		registrationService.saveUser(registrationForm, RoleType.ROLE_PASSENGER);
@@ -58,7 +58,7 @@ public class RegistrationController {
 			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
-	public ResponseEntity<?> registerAdmin(@RequestBody @Valid RegistrationForm registrationForm)
+	public ResponseEntity<?> registerAdmin(@RequestBody  RegistrationForm registrationForm)
 			throws EmailAlreadyExistException, URISyntaxException {
 
 		registrationService.saveUser(registrationForm, RoleType.ROLE_AGENT);

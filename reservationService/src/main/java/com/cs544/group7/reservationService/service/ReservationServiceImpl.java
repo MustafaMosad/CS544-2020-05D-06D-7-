@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +19,15 @@ import com.cs544.group7.reservationService.repository.ReservationRepository;
 import com.cs544.group7.reservationService.req.RequestReservation;
 import com.cs544.group7.reservationService.res.ResponseFlight;
 import com.cs544.group7.reservationService.res.ResponseReservation;
+import com.cs544.group7.reservationService.security.resp.TokenValidationResponse;
 import com.cs544.group7.reservationService.util.CrudServiceCaller;
 
 @Service
 @Transactional
 public class ReservationServiceImpl implements ReservationService {
+
+	@Autowired
+	private ServletContext servletContext;
 
 	@Autowired
 	ReservationRepository reservationRepository;
@@ -42,12 +48,12 @@ public class ReservationServiceImpl implements ReservationService {
 				reservation.getPassengerId(), getPasssengerFirstName(reservation.getPassengerId()),
 				getPasssengerFirstName(reservation.getPassengerId()));
 	}
-	
-	private List<ResponseFlight> reservedFlights (Set<Integer> reservedFlightNumbers){
+
+	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
 		List<ResponseFlight> reservedFlights = new ArrayList<ResponseFlight>();
 		
 		Iterator<Integer> value = reservedFlightNumbers.iterator();
-		while(value.hasNext()) {
+		while (value.hasNext()) {
 			reservedFlights.add(crudServiceCaller.getFlight(value.next()));
 		}
 		return reservedFlights;
@@ -95,6 +101,15 @@ public class ReservationServiceImpl implements ReservationService {
 	public List<ResponseReservation> getPassengerReservations(Long passengerId) {
 		return reservationRepository.findByPassengerId(passengerId).stream().parallel()
 				.map(this::convertReservationToResponseReservation).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ResponseReservation> getAgentReservations() {
+		TokenValidationResponse userInfo = ((TokenValidationResponse) servletContext.getAttribute("userInfo"));
+
+		Long agentId = userInfo.getId();
+		return reservationRepository.findByMadeByAgentId(agentId).stream().parallel()
+				.map(this::convertReservationToReservationResponse).collect(Collectors.toList());
 	}
 
 	@Override

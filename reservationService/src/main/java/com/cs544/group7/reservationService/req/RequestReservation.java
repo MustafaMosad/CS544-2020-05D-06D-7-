@@ -1,12 +1,11 @@
 package com.cs544.group7.reservationService.req;
 
-
 import java.util.Set;
 
 public class RequestReservation {
 
 	private Long passengerId;
-	private Integer AgentId;
+	private Long AgentId;
 	private Set<Integer> flightNumbers;
 
 	public Long getPassengerId() {
@@ -17,11 +16,11 @@ public class RequestReservation {
 		this.passengerId = passengerId;
 	}
 
-	public Integer getAgentId() {
+	public Long getAgentId() {
 		return AgentId;
 	}
 
-	public void setAgentId(Integer agentId) {
+	public void setAgentId(Long agentId) {
 		AgentId = agentId;
 	}
 
