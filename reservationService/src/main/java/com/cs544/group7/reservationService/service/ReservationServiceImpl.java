@@ -32,63 +32,50 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public List<ResponseReservation> getAllReservations() {
 
-		return reservationRepository.findAll().stream().parallel().map(this::convertReservationToReservationResponse)
+		return reservationRepository.findAll().stream().parallel().map(this::convertReservationToResponseReservation)
 				.collect(Collectors.toList());
 	}
 
-	private ResponseReservation convertReservationToReservationResponse(Reservation reservation) {
+	private ResponseReservation convertReservationToResponseReservation(Reservation reservation) {
 		return new ResponseReservation(reservation.getReservationCode(),
 				reservedFlights(reservation.getFlightNumbers()), reservation.isConfirmed(), reservation.getCreatedAt(),
-				getPasssengerFirstName(reservation.getPassengerId()),
+				reservation.getPassengerId(), getPasssengerFirstName(reservation.getPassengerId()),
 				getPasssengerFirstName(reservation.getPassengerId()));
 	}
 	
 	private List<ResponseFlight> reservedFlights (Set<Integer> reservedFlightNumbers){
 		List<ResponseFlight> reservedFlights = new ArrayList<ResponseFlight>();
-//		Integer[] convertSetTolist = (Integer[]) reservedFlightNumbers.toArray();
-		System.out.println("from here");
 		
 		Iterator<Integer> value = reservedFlightNumbers.iterator();
 		while(value.hasNext()) {
 			reservedFlights.add(crudServiceCaller.getFlight(value.next()));
 		}
-//		reservedFlightNumbers.iterator(){
-//			
-//		}
-//		for(int i=0; i< convertSetTolist.length;i++) {
-//			System.out.println("I have been here to get flights");
-//			return reservedFlights;
 		return reservedFlights;
 		}
 		
-		
-
-//	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
-//		return new ArrayList<ResponseFlight>();
-//	}
-
+	//this is temporal==============================================we need to get it from UserManagementService
 	private String getPasssengerFirstName(Long passengerId) {
 		return passengerId.toString();
 	}
 
 	@Override
 	public void addNewReservation(RequestReservation requestReservation) {
-		System.out.println("From here i am printing");
 
 		reservationRepository.save(convertRequestReservationToReservation(requestReservation));
 
 	}
-
+		//check again============================================
 	private Reservation convertRequestReservationToReservation(RequestReservation requestReservation) {
 		Reservation reservation = new Reservation();
 		reservation.setReservationCode(generateReservationCode());
 		reservation.setPassengerId(requestReservation.getPassengerId());
-		reservation.setMadeByAgentId(requestReservation.getAgentId());
+		reservation.setMadeByAgentId(requestReservation.getAgentId());//make use of usermanagement service
 		reservation.setMadeByUserId(requestReservation.getPassengerId());
-		System.out.println(requestReservation.getPassengerId());
 		reservation.setFlightNumbers(requestReservation.getFlightNumbers());
 		reservation.setCreatedAt(new Date());
-		System.out.println("From here i am printing too");
+		reservation.setConfirmed(false);
+		reservation.setCancelled(false);
+		reservation.setLastUpdateDate(new Date());
 		return reservation;
 
 	}
@@ -101,13 +88,13 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public ResponseReservation getReservationDetail(String reservationCode) {
 		// TODO Auto-generated method stub
-		return convertReservationToReservationResponse(reservationRepository.findByReservationCode(reservationCode));
+		return convertReservationToResponseReservation(reservationRepository.findByReservationCode(reservationCode));
 	}
 
 	@Override
 	public List<ResponseReservation> getPassengerReservations(Long passengerId) {
 		return reservationRepository.findByPassengerId(passengerId).stream().parallel()
-				.map(this::convertReservationToReservationResponse).collect(Collectors.toList());
+				.map(this::convertReservationToResponseReservation).collect(Collectors.toList());
 	}
 
 	@Override

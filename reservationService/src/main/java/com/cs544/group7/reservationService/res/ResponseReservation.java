@@ -9,18 +9,20 @@ public class ResponseReservation {
 	private List<ResponseFlight> flights;
 	private boolean isConfirmed;
 	private Date createdAt;
+	private Long passengerId;
 	private String passsengerFirstName;
 	private String passengerLastName;
 	
 
 	public ResponseReservation(String reservationCode, List<ResponseFlight> flights, boolean isConfirmed,
-			Date createdAt, String passsengerFirstName, String passengerLastName) 
+			Date createdAt, Long passengerId, String passsengerFirstName, String passengerLastName) 
 	{
 		
 		this.reservationCode = reservationCode;
 		this.flights = flights;
 		this.isConfirmed = isConfirmed;
 		this.createdAt = createdAt;
+		this.passengerId = passengerId;
 		this.passsengerFirstName = passsengerFirstName;
 		this.passengerLastName = passengerLastName;
 	}
@@ -55,6 +57,15 @@ public class ResponseReservation {
 
 	public void setReservationCode(String reservationCode) {
 		this.reservationCode = reservationCode;
+	}
+	
+	
+	public Long getPassengerId() {
+		return passengerId;
+	}
+
+	public void setPassengerId(Long passengerId) {
+		this.passengerId = passengerId;
 	}
 
 	public String getPasssengerFirstName() {
