@@ -17,7 +17,6 @@ public class EmailReceiver {
 
     @JmsListener(destination = "message_queue")
     public void receiveMessage(String emailDtoJSON){
-//    	System.out.println("Bishwas logic");
     	System.out.println(emailDtoJSON);
     	Gson gson = new Gson();
     	EmailDto emailDto = gson.fromJson(emailDtoJSON, EmailDto.class);
