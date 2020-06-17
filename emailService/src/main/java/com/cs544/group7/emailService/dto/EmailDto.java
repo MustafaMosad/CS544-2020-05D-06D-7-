@@ -1,5 +1,7 @@
 package com.cs544.group7.emailService.dto;
 
+import java.sql.Date;
+
 import io.swagger.annotations.ApiModel;
 
 @ApiModel(description = "All details about requested email ")
@@ -8,16 +10,19 @@ public class EmailDto {
 	    private String to;
 	    private String subject;
 	    private String messageBody;
+	    private Date emailReminderDate;
 
 	    public EmailDto() {
 	    }
 
-	    public EmailDto(String to, String subject, String messageBody) {
+	    public EmailDto(String to, String subject, String messageBody, Date emailReminderDate) {
 	        this.to = to;
 	        this.subject = subject;
 	        this.messageBody = messageBody;
+	        this.emailReminderDate = emailReminderDate;
 	    }
 
+	    
 		public String getTo() {
 			return to;
 		}
@@ -41,14 +46,14 @@ public class EmailDto {
 		public void setMessageBody(String messageBody) {
 			this.messageBody = messageBody;
 		}
+
+		public Date getDate() {
+			return emailReminderDate;
+		}
+
+		public void setDate(Date emailReminderDate) {
+			this.emailReminderDate = emailReminderDate;
+		}
 	    
-		@Override
-	    public String toString() {
-	        return "EmailRespomse{" +
-	                "to='" + to + '\'' +
-	                ", subject='" + subject + '\'' +
-	                ", messageBody='" + messageBody + '\'' +
-	                '}';
-	    }
 	}
 

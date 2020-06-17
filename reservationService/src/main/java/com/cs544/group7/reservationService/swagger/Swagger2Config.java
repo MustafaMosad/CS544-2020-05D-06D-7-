@@ -1,4 +1,4 @@
-package com.cs544.group7.reservationService.config.swagger;
+package com.cs544.group7.reservationService.swagger;
 
 import java.util.Date;
 import java.util.List;

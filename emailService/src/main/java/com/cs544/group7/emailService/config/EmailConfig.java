@@ -1,6 +1,5 @@
 package com.cs544.group7.emailService.config;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
