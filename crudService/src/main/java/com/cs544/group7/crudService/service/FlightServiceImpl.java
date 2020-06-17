@@ -31,7 +31,7 @@ public class FlightServiceImpl implements FlightService {
 	AirportRepository airportRepository;
 
 	@Override
-	public void addFlight(RequestFlight requestFlight) {
+	public ResponseFlight addFlight(RequestFlight requestFlight) {
 		Airline airline = airlineRepository.findByCode(requestFlight.getAirlineCode());
 		Airport destinationAirport = airportRepository.findByCode(requestFlight.getDestinationAirportCode());
 		Airport originAirport = airportRepository.findByCode(requestFlight.getArrivalAirportCode());
@@ -47,7 +47,7 @@ public class FlightServiceImpl implements FlightService {
 		flight.setArrivalDate(requestFlight.getArrivalDate());
 		flight.setAirline(airline);
 
-		flightRepository.save(flight);
+		return convertFlightToFlightResponse(flightRepository.save(flight));
 	}
 
 	@Override
@@ -101,12 +101,10 @@ public class FlightServiceImpl implements FlightService {
 	}
 
 	@Override
-	public List<ResponseFlight> getFlightByDepartureAirportCode(String departureAirPortCode, String arrivalAirPortCode, Date departureDate) {
+	public List<ResponseFlight> getFlightByDepartureAirportCode(String departureAirPortCode, String arrivalAirPortCode,
+			Date departureDate) {
 		return flightRepository.getFlightByDepartureAirportCode(departureAirPortCode, arrivalAirPortCode, departureDate)
-				.stream()
-				.parallel()
-				.map(this::convertFlightToFlightResponse)
-				.collect(Collectors.toList());
+				.stream().parallel().map(this::convertFlightToFlightResponse).collect(Collectors.toList());
 	}
 
 }

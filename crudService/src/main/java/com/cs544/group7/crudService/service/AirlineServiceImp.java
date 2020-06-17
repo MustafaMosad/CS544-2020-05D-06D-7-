@@ -23,13 +23,13 @@ public class AirlineServiceImp implements AirlineService {
     AirlineRespository airlineRespository;
 
     @Override
-    public void saveAirline(AirlineRequest airlineRequest) {
+    public AirlineResponse saveAirline(AirlineRequest airlineRequest) {
         Airline airline = new Airline();
         airline.setCode(airlineRequest.getCode());
         airline.setName(airlineRequest.getName());
         airline.setHistory(airlineRequest.getHistory());
 
-        airlineRespository.save(airline);
+        return convertAirlineToAirlineResponse(airlineRespository.save(airline));
 
     }
 
@@ -59,6 +59,7 @@ public class AirlineServiceImp implements AirlineService {
 
     @Override
     public void deleteAirline(Long id) {
+
         airlineRespository.deleteById(id);
     }
 
@@ -83,14 +84,14 @@ public class AirlineServiceImp implements AirlineService {
     }
 
     private AirlineResponse convertAirlineToAirlineResponse(Airline airline) {
-        return new AirlineResponse(airline.getCode(),airline.getName(), airline.getHistory());
+        return new AirlineResponse(airline.getId(),airline.getCode(),airline.getName(), airline.getHistory());
     }
 
     private List<AirlineResponse> convertAirlineListToAirlineResponseList(List<Airline> airline) {
         AirlineResponse airlineResponse;
         List<AirlineResponse> responseList = new ArrayList<>();
         for(Airline a : airline){
-            airlineResponse = new AirlineResponse(a.getCode(),a.getName(), a.getHistory());
+            airlineResponse = new AirlineResponse(a.getId(),a.getCode(),a.getName(), a.getHistory());
             responseList.add(airlineResponse);
         }
         return responseList;
