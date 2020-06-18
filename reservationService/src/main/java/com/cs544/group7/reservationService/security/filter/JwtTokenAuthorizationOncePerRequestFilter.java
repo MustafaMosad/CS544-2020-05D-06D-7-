@@ -52,6 +52,7 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
 
 			if (tokenValidationResponse.isValid()) {
 				servletContext.setAttribute("userInfo", tokenValidationResponse);
+				servletContext.setAttribute("userToken", requestTokenHeader);
 
 				UserDetails userDetails = new JwtUserDetails(tokenValidationResponse.getUsername(),
 						tokenValidationResponse.getAuthorites().get(0));
