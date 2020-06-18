@@ -1,6 +1,6 @@
 package com.cs544.group7.userManagementService.security.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
@@ -16,7 +16,7 @@ public class Passenger extends User {
 		super();
 	}
 
-	public Passenger(String email, String password, String firstName, String lastName, LocalDate birthDate,
+	public Passenger(String email, String password, String firstName, String lastName, Date birthDate,
 			Address address) {
 		super(email, password, firstName, lastName, birthDate);
 		this.address = address;

@@ -1,6 +1,7 @@
 package com.cs544.group7.userManagementService.req;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
@@ -30,7 +31,7 @@ public class RegistrationForm {
 
 	private String firstName;
 	private String lastName;
-	private LocalDate birthDate;
+	private Date birthDate;
 	private String street;
 	private String city;
 	private String zipCode;
@@ -81,11 +82,11 @@ public class RegistrationForm {
 		this.lastName = lastName;
 	}
 
-	public LocalDate getBirthDate() {
+	public Date getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(LocalDate birthDate) {
+	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 

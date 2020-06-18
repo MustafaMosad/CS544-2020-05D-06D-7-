@@ -20,6 +20,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
@@ -30,17 +32,18 @@ public abstract class User {
 	private String email;
 	private String password;
 	private boolean enabled;
+	@CreationTimestamp
 	private Date registeredAt;
 	private Set<Role> roles;
 	private String firstName;
 	private String lastName;
-	private LocalDate birthDate;
+	private Date birthDate;
 
 	public User() {
 
 	}
 
-	public User(String email, String password, String firstName, String lastName, LocalDate birthDate) {
+	public User(String email, String password, String firstName, String lastName, Date birthDate) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -128,11 +131,11 @@ public abstract class User {
 		this.lastName = lastName;
 	}
 
-	public LocalDate getBirthDate() {
+	public Date getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(LocalDate birthDate) {
+	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
