@@ -36,7 +36,6 @@ public class Reservation {
 
 	private boolean isCancelled;
 
-//	@Value("#{new java.text.SimpleDateFormat(\\\"yyyyMMdd\\\").parse(\\\"${PROP_DATE}\\\")}")
 	private Date createdAt;
 
 	private Date lastUpdateDate;

@@ -25,7 +25,10 @@ import com.cs544.group7.reservationService.repository.TicketRepository;
 import com.cs544.group7.reservationService.req.RequestReservation;
 import com.cs544.group7.reservationService.res.ResponseFlight;
 import com.cs544.group7.reservationService.res.ResponseReservation;
+import com.cs544.group7.reservationService.res.ResponseTicket;
 import com.cs544.group7.reservationService.security.resp.TokenValidationResponse;
+import com.cs544.group7.reservationService.security.resp.UserDto;
+import com.cs544.group7.reservationService.security.util.AuthenticationServiceCaller;
 import com.cs544.group7.reservationService.util.CrudServiceCaller;
 
 @Service
@@ -44,67 +47,67 @@ public class ReservationServiceImpl implements ReservationService {
 	@Autowired
 	CrudServiceCaller crudServiceCaller;
 
-	 @Autowired
+	@Autowired
+	AuthenticationServiceCaller authenticationServiceCaller;
+
+	private UserDto getUserInformation(Long userId) {
+		return authenticationServiceCaller.getUserById(userId);
+	}
+
+	@Autowired
+
 	static MessageSenderConfirm messageSender;
-	 
+
 	@Override
 	public List<ResponseReservation> getAllReservations() {
 
-		return reservationRepository.findAll().stream().parallel().map(this::convertReservationToReservationResponse)
+		return reservationRepository.findAll().stream().parallel().map(this::convertReservationToResponseReservation)
 				.collect(Collectors.toList());
 	}
 
-	private ResponseReservation convertReservationToReservationResponse(Reservation reservation) {
+	private ResponseReservation convertReservationToResponseReservation(Reservation reservation) {
+		UserDto passenger = getUserInformation(reservation.getPassengerId());
 		return new ResponseReservation(reservation.getReservationCode(),
-				reservedFlights(reservation.getFlightNumbers()), reservation.isConfirmed(), reservation.getCreatedAt(),
-				getPasssengerFirstName(reservation.getPassengerId()),
-				getPasssengerFirstName(reservation.getPassengerId()));
+				reservedFlights(reservation.getFlightNumbers()), reservation.isConfirmed(), reservation.isCancelled(),
+				reservation.getCreatedAt(), reservation.getPassengerId(), passenger.getFirstName(),
+				passenger.getListName());
 	}
 
 	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
 		List<ResponseFlight> reservedFlights = new ArrayList<ResponseFlight>();
-//		Integer[] convertSetTolist = (Integer[]) reservedFlightNumbers.toArray();
-		System.out.println("from here");
 
 		Iterator<Integer> value = reservedFlightNumbers.iterator();
 		while (value.hasNext()) {
 			reservedFlights.add(crudServiceCaller.getFlight(value.next()));
 		}
-//		reservedFlightNumbers.iterator(){
-//			
-//		}
-//		for(int i=0; i< convertSetTolist.length;i++) {
-//			System.out.println("I have been here to get flights");
-//			return reservedFlights;
 		return reservedFlights;
-	}
-
-//	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
-//		return new ArrayList<ResponseFlight>();
-//	}
-
-	private String getPasssengerFirstName(Long passengerId) {
-		return passengerId.toString();
 	}
 
 	@Override
 	public void addNewReservation(RequestReservation requestReservation) {
-		System.out.println("From here i am printing");
-
+		System.out.println(requestReservation.getPassengerId());
+		UserDto passenger = getUserInformation(requestReservation.getPassengerId());
+		if (!passenger.isExist()) {
+			System.out.println("passenger confirmation failed");
+			return;
+		}
+		System.out.println("passenger confirmation succed");
 		reservationRepository.save(convertRequestReservationToReservation(requestReservation));
 
 	}
 
+	// check again============================================
 	private Reservation convertRequestReservationToReservation(RequestReservation requestReservation) {
 		Reservation reservation = new Reservation();
 		reservation.setReservationCode(generateReservationCode());
 		reservation.setPassengerId(requestReservation.getPassengerId());
-		reservation.setMadeByAgentId(requestReservation.getAgentId());
+		reservation.setMadeByAgentId(requestReservation.getAgentId());// make use of usermanagement service
 		reservation.setMadeByUserId(requestReservation.getPassengerId());
-		System.out.println(requestReservation.getPassengerId());
 		reservation.setFlightNumbers(requestReservation.getFlightNumbers());
 		reservation.setCreatedAt(new Date());
-		System.out.println("From here i am printing too");
+		reservation.setConfirmed(false);
+		reservation.setCancelled(false);
+		reservation.setLastUpdateDate(new Date());
 		return reservation;
 
 	}
@@ -117,13 +120,13 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public ResponseReservation getReservationDetail(String reservationCode) {
 		// TODO Auto-generated method stub
-		return convertReservationToReservationResponse(reservationRepository.findByReservationCode(reservationCode));
+		return convertReservationToResponseReservation(reservationRepository.findByReservationCode(reservationCode));
 	}
 
 	@Override
 	public List<ResponseReservation> getPassengerReservations(Long passengerId) {
 		return reservationRepository.findByPassengerId(passengerId).stream().parallel()
-				.map(this::convertReservationToReservationResponse).collect(Collectors.toList());
+				.map(this::convertReservationToResponseReservation).collect(Collectors.toList());
 	}
 
 	@Override
@@ -132,79 +135,86 @@ public class ReservationServiceImpl implements ReservationService {
 
 		Long agentId = userInfo.getId();
 		return reservationRepository.findByMadeByAgentId(agentId).stream().parallel()
-				.map(this::convertReservationToReservationResponse).collect(Collectors.toList());
+				.map(this::convertReservationToResponseReservation).collect(Collectors.toList());
 	}
 
 	@Override
 	public void cancelReservation(String reservationCode) {
-		reservationRepository.delete(reservationRepository.findByReservationCode(reservationCode));
+		Reservation cancelReservation = reservationRepository.findByReservationCode(reservationCode);
+		cancelReservation.setCancelled(true);
+		cancelReservation.setConfirmed(false);
+		reservationRepository.save(cancelReservation);
 	}
 
 	@Override
 	public ResponseFlight getFlight(Integer flightNumber) {
-		System.out.println("Also I am here");
 		return crudServiceCaller.getFlight(flightNumber);
 	}
 
 	@Override
-	public List<Ticket> confirmReservation(String reservationCode) {
+	public List<ResponseTicket> confirmReservation(String reservationCode) {
 		Reservation reservation = reservationRepository.findByReservationCode(reservationCode);
 		List<Ticket> tickets = new ArrayList<Ticket>();
+		List<ResponseTicket> responseTickets = new ArrayList<ResponseTicket>();
 		if (reservation != null) {
 			reservation.setConfirmed(true);
 			for (Integer flightNumber : reservation.getFlightNumbers()) {
 				ResponseFlight responseFlight = crudServiceCaller.getFlight(flightNumber);
+
 				Ticket ticket = new Ticket(flightNumber, responseFlight.getAirlineName(),
 						responseFlight.getDepartureAirport(), responseFlight.getArrivalAirport(),
 						responseFlight.getDepartureTime(), responseFlight.getDepartureDate(),
-						responseFlight.getArrivalTime(), responseFlight.getArrivalDate());
+						responseFlight.getArrivalTime(), responseFlight.getArrivalDate(), reservation);
 				ticketRepository.save(ticket);
+				responseTickets.add(convertTichetToResponseTicket(ticket));
 				tickets.add(ticket);
 			}
-          TokenValidationResponse userInfo = (TokenValidationResponse)servletContext.getAttribute("userInfo");
+			TokenValidationResponse userInfo = (TokenValidationResponse) servletContext.getAttribute("userInfo");
 			sendConfirmationMail(userInfo.getUsername());
-			scheduleReminderMail(userInfo.getUsername() ,tickets.get(0).getDepartureDate());
+			scheduleReminderMail(userInfo.getUsername(), tickets.get(0).getDepartureDate());
 			reservationRepository.save(reservation);
 		}
-		return tickets;
+		return responseTickets;
 	}
 
-	private void scheduleReminderMail(String emailAddress , Date departureDate) {
+	private ResponseTicket convertTichetToResponseTicket(Ticket ticket) {
+		return new ResponseTicket(ticket.getFlightNumber(), ticket.getAirlineName(), ticket.getDepratureAirport(),
+				ticket.getArrivalAirport(), ticket.getDepartureTime(), ticket.getDepartureDate(),
+				ticket.getArrivalTime(), ticket.getArrivalDate(), ticket.getIssuedAt(),
+				ticket.getReservation().getReservationCode());
+	}
+
+	private void scheduleReminderMail(String emailAddress, Date departureDate) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(departureDate);
-		cal.add(Calendar.DAY_OF_YEAR,-1);
-		Date oneDayBefore= cal.getTime();
-		  Timer timer = new Timer();
-		  MyTimeTask timerTask = new MyTimeTask();
-		  timerTask.setAddress(emailAddress);
-		    //Use this if you want to execute it once
-		    timer.schedule(timerTask, oneDayBefore);
-		
+		cal.add(Calendar.DAY_OF_YEAR, -1);
+		Date oneDayBefore = cal.getTime();
+		Timer timer = new Timer();
+		MyTimeTask timerTask = new MyTimeTask();
+		timerTask.setAddress(emailAddress);
+		// Use this if you want to execute it once
+		timer.schedule(timerTask, oneDayBefore);
+
 	}
 
 	private void sendConfirmationMail(String emailAddress) {
 		messageSender.sendConfirmation(emailAddress);
 
 	}
-	
-	private static class MyTimeTask extends TimerTask
-	{
+
+	private static class MyTimeTask extends TimerTask {
 		private String address;
-		
-		
-	    public String getAddress() {
+
+		public String getAddress() {
 			return address;
 		}
-
 
 		public void setAddress(String address) {
 			this.address = address;
 		}
 
-
-		public void run()
-	    {   
-		    messageSender.sendReminder(address);
-	    }
+		public void run() {
+			messageSender.sendReminder(address);
+		}
 	}
 }

@@ -35,7 +35,7 @@ public class FlightServiceImpl implements FlightService {
 		Airline airline = airlineRepository.findByCode(requestFlight.getAirlineCode());
 		Airport departureAirport = airportRepository.findByCode(requestFlight.getDepartureAirportCode());
 		Airport originAirport = airportRepository.findByCode(requestFlight.getArrivalAirportCode());
-
+		
 		Flight flight = new Flight();
 		flight.setDepartureAirport(departureAirport);
 		flight.setArrivalAirport(originAirport);
