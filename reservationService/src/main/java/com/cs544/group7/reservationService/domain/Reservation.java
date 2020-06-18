@@ -39,6 +39,7 @@ public class Reservation {
 	private Date createdAt;
 
 	private Date lastUpdateDate;
+	
 
 	public Integer getId() {
 		return id;
