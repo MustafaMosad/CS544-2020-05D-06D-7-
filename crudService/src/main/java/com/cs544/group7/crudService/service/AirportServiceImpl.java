@@ -21,8 +21,6 @@ import com.cs544.group7.crudService.security.resp.TokenValidationResponse;
 @Transactional
 public class AirportServiceImpl implements AirportService {
 
-	@Context
-	private ServletContext servletContext;
 
 	@Autowired
 	AirportRepository airportRepository;
@@ -38,8 +36,7 @@ public class AirportServiceImpl implements AirportService {
 
 	@Override
 	public List<ResponseAirport> getAllAirports() {
-		System.out.println(
-				"hhhhhhhhhhhh " + ((TokenValidationResponse) servletContext.getAttribute("userInfo")).getFirstName());
+	
 
 		return airportRepository.findAll().stream()
 				.map(airport -> new ResponseAirport(airport.getCode(), airport.getName(), airport.getAddress()))
