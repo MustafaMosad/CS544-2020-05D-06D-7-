@@ -9,9 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import com.cs544.group7.userManagementService.repo.UserRepository;
 import com.cs544.group7.userManagementService.res.TokenValidationResponse;
+import com.cs544.group7.userManagementService.res.UserDto;
 import com.cs544.group7.userManagementService.security.dto.req.ValidateTokenRequest;
 import com.cs544.group7.userManagementService.security.model.JwtUserDetails;
+import com.cs544.group7.userManagementService.security.model.User;
 import com.cs544.group7.userManagementService.security.util.JwtTokenUtil;
 
 @Service
@@ -22,6 +25,9 @@ public class AuthenticationService {
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	public TokenValidationResponse validateToken(ValidateTokenRequest validateTokenRequest) {
 
@@ -63,5 +69,19 @@ public class AuthenticationService {
 
 		tokenValidationResponse.setAuthorites(authorities);
 		return tokenValidationResponse;
+	}
+
+	public UserDto getById(Long id) {
+		User user = userRepository.getOne(id);
+		UserDto userDto = new UserDto();
+
+		if (user == null)
+			userDto.setExist(false);
+		else {
+			userDto.setExist(true);
+			userDto.setFirstName(user.getFirstName());
+			userDto.setListName(user.getLastName());
+		}
+		return userDto;
 	}
 }
