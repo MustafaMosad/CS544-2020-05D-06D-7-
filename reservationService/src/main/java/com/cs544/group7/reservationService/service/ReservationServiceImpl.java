@@ -23,6 +23,8 @@ import com.cs544.group7.reservationService.res.ResponseFlight;
 import com.cs544.group7.reservationService.res.ResponseReservation;
 import com.cs544.group7.reservationService.res.ResponseTicket;
 import com.cs544.group7.reservationService.security.resp.TokenValidationResponse;
+import com.cs544.group7.reservationService.security.resp.UserDto;
+import com.cs544.group7.reservationService.security.util.AuthenticationServiceCaller;
 import com.cs544.group7.reservationService.util.CrudServiceCaller;
 
 @Service
@@ -40,6 +42,13 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	CrudServiceCaller crudServiceCaller;
+	
+	@Autowired
+	AuthenticationServiceCaller authenticationServiceCaller;
+	
+	private UserDto getUserInformation(Long userId) {
+		return authenticationServiceCaller.getUserById(userId);
+	}
 
 	@Override
 	public List<ResponseReservation> getAllReservations() {
@@ -55,12 +64,6 @@ public class ReservationServiceImpl implements ReservationService {
 				reservedFlights(reservation.getFlightNumbers()), reservation.isConfirmed(), reservation.isCancelled(), reservation.getCreatedAt(),
 				reservation.getPassengerId(), getPasssengerFirstName(reservation.getPassengerId()),
 				getPasssengerFirstName(reservation.getPassengerId()));
-//		ResponseReservation responseReservation = new ResponseReservation(reservation.getReservationCode(),
-//				reservedFlights(reservation.getFlightNumbers()), reservation.isConfirmed(), reservation.getCreatedAt(),
-//				reservation.getPassengerId(), getPasssengerFirstName(reservation.getPassengerId()),
-//				getPasssengerFirstName(reservation.getPassengerId()));
-//		System.out.println("I am here more securly");
-//		return responseReservation;
 	}
 
 	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
@@ -80,7 +83,12 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public void addNewReservation(RequestReservation requestReservation) {
-
+		System.out.println(requestReservation.getPassengerId());
+		if(getUserInformation(requestReservation.getPassengerId())==null) {
+			System.out.println("passenger confirmation failed");
+			return;
+		}
+		System.out.println("passenger confirmation succed");
 		reservationRepository.save(convertRequestReservationToReservation(requestReservation));
 
 	}
