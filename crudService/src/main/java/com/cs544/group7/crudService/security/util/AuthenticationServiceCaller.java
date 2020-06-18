@@ -55,7 +55,8 @@ public class AuthenticationServiceCaller {
 		return restTemplate.exchange(lookupUrlFor(serviceName) + validateApiUrl, HttpMethod.POST, entity,
 				TokenValidationResponse.class).getBody();
 	}
-
+	
+	
 	private String lookupUrlFor(String appName) {
 		InstanceInfo instanceInfo = eurekaClient.getNextServerFromEureka(appName, false);
 		return instanceInfo.getHomePageUrl();

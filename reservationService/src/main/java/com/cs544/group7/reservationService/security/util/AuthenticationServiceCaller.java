@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.cs544.group7.reservationService.security.resp.TokenValidationResponse;
+import com.cs544.group7.reservationService.security.resp.UserDto;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 
@@ -35,7 +36,7 @@ public class AuthenticationServiceCaller {
 
 	@Value("${validate-api-url}")
 	private String validateApiUrl;
-	
+
 	@Autowired
 	private ServletContext servletContext;
 
@@ -54,6 +55,23 @@ public class AuthenticationServiceCaller {
 
 		return restTemplate.exchange(lookupUrlFor(serviceName) + validateApiUrl, HttpMethod.POST, entity,
 				TokenValidationResponse.class).getBody();
+	}
+
+	public UserDto getUserById(Long userId) {
+		// create headers
+		HttpHeaders headers = new HttpHeaders();
+		// set `content-type` header
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		Map<String, Object> map = new HashMap<>();
+		headers.add("Authorization", (String) servletContext.getAttribute("userToken"));
+
+		// request body parameters
+
+		// build the request
+		HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map, headers);
+
+		return restTemplate.exchange(lookupUrlFor(serviceName) + "/getById/{userId}", HttpMethod.POST, entity,
+				UserDto.class, userId).getBody();
 	}
 
 	private String lookupUrlFor(String appName) {
