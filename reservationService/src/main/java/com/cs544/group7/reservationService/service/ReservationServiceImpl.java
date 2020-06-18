@@ -46,7 +46,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 	private ResponseReservation convertReservationToResponseReservation(Reservation reservation) {
 		return new ResponseReservation(reservation.getReservationCode(),
-				reservedFlights(reservation.getFlightNumbers()), reservation.isConfirmed(), reservation.getCreatedAt(),
+				reservedFlights(reservation.getFlightNumbers()), reservation.isConfirmed(), reservation.isCancelled(), reservation.getCreatedAt(),
 				reservation.getPassengerId(), getPasssengerFirstName(reservation.getPassengerId()),
 				getPasssengerFirstName(reservation.getPassengerId()));
 //		ResponseReservation responseReservation = new ResponseReservation(reservation.getReservationCode(),
@@ -122,12 +122,14 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public void cancelReservation(String reservationCode) {
-		reservationRepository.delete(reservationRepository.findByReservationCode(reservationCode));
+		Reservation cancelReservation = reservationRepository.findByReservationCode(reservationCode);
+		cancelReservation.setCancelled(true);
+		cancelReservation.setConfirmed(false);
+		reservationRepository.save(cancelReservation);
 	}
 
 	@Override
 	public ResponseFlight getFlight(Integer flightNumber) {
-		System.out.println("Also I am here");
 		return crudServiceCaller.getFlight(flightNumber);
 	}
 }

@@ -8,6 +8,7 @@ public class ResponseReservation {
 	private String reservationCode;
 	private List<ResponseFlight> flights;
 	private boolean isConfirmed;
+	private boolean isCancelled;
 	private Date createdAt;
 	private Long passengerId;
 	private String passsengerFirstName;
@@ -15,12 +16,13 @@ public class ResponseReservation {
 	
 
 	public ResponseReservation(String reservationCode, List<ResponseFlight> flights, boolean isConfirmed,
-			Date createdAt, Long passengerId, String passsengerFirstName, String passengerLastName) 
+			boolean isCancelled, Date createdAt, Long passengerId, String passsengerFirstName, String passengerLastName) 
 	{
 		
 		this.reservationCode = reservationCode;
 		this.flights = flights;
 		this.isConfirmed = isConfirmed;
+		this.isCancelled = isCancelled;
 		this.createdAt = createdAt;
 		this.passengerId = passengerId;
 		this.passsengerFirstName = passsengerFirstName;
@@ -45,6 +47,15 @@ public class ResponseReservation {
 
 	public Date getCreatedAt() {
 		return createdAt;
+	}
+	
+	
+	public boolean isCancelled() {
+		return isCancelled;
+	}
+
+	public void setCancelled(boolean isCancelled) {
+		this.isCancelled = isCancelled;
 	}
 
 	public void setCreatedAt(Date createdAt) {
