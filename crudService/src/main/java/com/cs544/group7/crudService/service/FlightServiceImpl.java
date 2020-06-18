@@ -95,9 +95,15 @@ public class FlightServiceImpl implements FlightService {
 	}
 
 	private ResponseFlight convertFlightToFlightResponse(Flight flight) {
-		return new ResponseFlight(flight.getFlightNumber(), flight.getDepartureAirport().getName(),
-				flight.getDepartureTime(), flight.getDepartureDate(), flight.getArrivalAirport().getName(),
-				flight.getArrivalTime(), flight.getArrivalDate(), flight.getAirline().getName());
+		String departureAirportName = flight.getDepartureAirport() == null?null:flight.getDepartureAirport().getName();
+		String arrivalAirportName = flight.getArrivalAirport() == null?null:flight.getArrivalAirport().getName();
+		String airlineCode = flight.getAirline() == null?null:flight.getAirline().getName();
+		return new ResponseFlight(flight.getId(), flight.getFlightNumber(), departureAirportName,
+				flight.getDepartureTime(), flight.getDepartureDate(), arrivalAirportName, flight.getArrivalTime(), flight.getArrivalDate(),
+				airlineCode);
+//		return new ResponseFlight(flight.getId(),flight.getFlightNumber(), flight.getDepartureAirport().getName(),
+//				flight.getDepartureTime(), flight.getDepartureDate(), flight.getArrivalAirport().getName(),
+//				flight.getArrivalTime(), flight.getArrivalDate(), flight.getAirline().getName());
 	}
 
 	@Override
