@@ -1,10 +1,13 @@
 package com.cs544.group7.reservationService.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -16,12 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cs544.group7.reservationService.domain.Reservation;
 import com.cs544.group7.reservationService.domain.Ticket;
+import com.cs544.group7.reservationService.producer.MessageSenderConfirm;
 import com.cs544.group7.reservationService.repository.ReservationRepository;
 import com.cs544.group7.reservationService.repository.TicketRepository;
 import com.cs544.group7.reservationService.req.RequestReservation;
 import com.cs544.group7.reservationService.res.ResponseFlight;
 import com.cs544.group7.reservationService.res.ResponseReservation;
-import com.cs544.group7.reservationService.res.TicketResponse;
 import com.cs544.group7.reservationService.security.resp.TokenValidationResponse;
 import com.cs544.group7.reservationService.util.CrudServiceCaller;
 
@@ -41,6 +44,9 @@ public class ReservationServiceImpl implements ReservationService {
 	@Autowired
 	CrudServiceCaller crudServiceCaller;
 
+	 @Autowired
+	static MessageSenderConfirm messageSender;
+	 
 	@Override
 	public List<ResponseReservation> getAllReservations() {
 
@@ -146,7 +152,6 @@ public class ReservationServiceImpl implements ReservationService {
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		if (reservation != null) {
 			reservation.setConfirmed(true);
-
 			for (Integer flightNumber : reservation.getFlightNumbers()) {
 				ResponseFlight responseFlight = crudServiceCaller.getFlight(flightNumber);
 				Ticket ticket = new Ticket(flightNumber, responseFlight.getAirlineName(),
@@ -156,15 +161,50 @@ public class ReservationServiceImpl implements ReservationService {
 				ticketRepository.save(ticket);
 				tickets.add(ticket);
 			}
-
-			sendConfirmationMail();
+          TokenValidationResponse userInfo = (TokenValidationResponse)servletContext.getAttribute("userInfo");
+			sendConfirmationMail(userInfo.getUsername());
+			scheduleReminderMail(userInfo.getUsername() ,tickets.get(0).getDepartureDate());
 			reservationRepository.save(reservation);
 		}
 		return tickets;
 	}
 
-	private void sendConfirmationMail() {
-		// TODO Auto-generated method stub
+	private void scheduleReminderMail(String emailAddress , Date departureDate) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(departureDate);
+		cal.add(Calendar.DAY_OF_YEAR,-1);
+		Date oneDayBefore= cal.getTime();
+		  Timer timer = new Timer();
+		  MyTimeTask timerTask = new MyTimeTask();
+		  timerTask.setAddress(emailAddress);
+		    //Use this if you want to execute it once
+		    timer.schedule(timerTask, oneDayBefore);
+		
+	}
 
+	private void sendConfirmationMail(String emailAddress) {
+		messageSender.sendConfirmation(emailAddress);
+
+	}
+	
+	private static class MyTimeTask extends TimerTask
+	{
+		private String address;
+		
+		
+	    public String getAddress() {
+			return address;
+		}
+
+
+		public void setAddress(String address) {
+			this.address = address;
+		}
+
+
+		public void run()
+	    {   
+		    messageSender.sendReminder(address);
+	    }
 	}
 }
