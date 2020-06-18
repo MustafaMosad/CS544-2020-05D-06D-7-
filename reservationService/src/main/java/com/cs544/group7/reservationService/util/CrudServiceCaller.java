@@ -22,10 +22,10 @@ import com.netflix.discovery.EurekaClient;
 @Configuration
 public class CrudServiceCaller {
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+//	@Bean
+//	public RestTemplate restTemplate() {
+//		return new RestTemplate();
+//	}
 	
 
 	@Autowired 

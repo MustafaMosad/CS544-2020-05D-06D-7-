@@ -28,7 +28,6 @@ public class ReservationController {
 	@GetMapping
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public List<ResponseReservation> getAllReservations() {
-
 		return reservationService.getAllReservations();
 	}
 

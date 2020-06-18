@@ -38,6 +38,8 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public List<ResponseReservation> getAllReservations() {
 
+
+		
 		return reservationRepository.findAll().stream().parallel().map(this::convertReservationToResponseReservation)
 				.collect(Collectors.toList());
 	}
@@ -47,6 +49,12 @@ public class ReservationServiceImpl implements ReservationService {
 				reservedFlights(reservation.getFlightNumbers()), reservation.isConfirmed(), reservation.getCreatedAt(),
 				reservation.getPassengerId(), getPasssengerFirstName(reservation.getPassengerId()),
 				getPasssengerFirstName(reservation.getPassengerId()));
+//		ResponseReservation responseReservation = new ResponseReservation(reservation.getReservationCode(),
+//				reservedFlights(reservation.getFlightNumbers()), reservation.isConfirmed(), reservation.getCreatedAt(),
+//				reservation.getPassengerId(), getPasssengerFirstName(reservation.getPassengerId()),
+//				getPasssengerFirstName(reservation.getPassengerId()));
+//		System.out.println("I am here more securly");
+//		return responseReservation;
 	}
 
 	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
@@ -109,7 +117,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 		Long agentId = userInfo.getId();
 		return reservationRepository.findByMadeByAgentId(agentId).stream().parallel()
-				.map(this::convertReservationToReservationResponse).collect(Collectors.toList());
+				.map(this::convertReservationToResponseReservation).collect(Collectors.toList());
 	}
 
 	@Override
