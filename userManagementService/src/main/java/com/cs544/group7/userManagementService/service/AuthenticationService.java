@@ -3,6 +3,8 @@ package com.cs544.group7.userManagementService.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -72,16 +74,25 @@ public class AuthenticationService {
 	}
 
 	public UserDto getById(Long id) {
-		User user = userRepository.getOne(id);
+
 		UserDto userDto = new UserDto();
 
-		if (user == null)
+		User user = null;
+
+		user = userRepository.getOne(id);
+
+		try {
+			user.isEnabled();
+		} catch (Exception e) {
 			userDto.setExist(false);
-		else {
-			userDto.setExist(true);
-			userDto.setFirstName(user.getFirstName());
-			userDto.setListName(user.getLastName());
+			return userDto;
 		}
+		userDto.setExist(true);
+
+		userDto.setFirstName(user.getFirstName());
+
+		userDto.setListName(user.getLastName());
+
 		return userDto;
 	}
 }

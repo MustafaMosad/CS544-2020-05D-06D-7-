@@ -21,8 +21,8 @@ import com.cs544.group7.reservationService.repository.TicketRepository;
 import com.cs544.group7.reservationService.req.RequestReservation;
 import com.cs544.group7.reservationService.res.ResponseFlight;
 import com.cs544.group7.reservationService.res.ResponseReservation;
-import com.cs544.group7.reservationService.res.TicketResponse;
 import com.cs544.group7.reservationService.security.resp.TokenValidationResponse;
+import com.cs544.group7.reservationService.security.util.AuthenticationServiceCaller;
 import com.cs544.group7.reservationService.util.CrudServiceCaller;
 
 @Service
@@ -41,9 +41,10 @@ public class ReservationServiceImpl implements ReservationService {
 	@Autowired
 	CrudServiceCaller crudServiceCaller;
 
+	 @Autowired
+	 AuthenticationServiceCaller auth;
 	@Override
 	public List<ResponseReservation> getAllReservations() {
-
 		return reservationRepository.findAll().stream().parallel().map(this::convertReservationToReservationResponse)
 				.collect(Collectors.toList());
 	}
