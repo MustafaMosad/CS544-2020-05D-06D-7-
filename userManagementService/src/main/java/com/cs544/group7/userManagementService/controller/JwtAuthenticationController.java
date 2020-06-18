@@ -2,6 +2,8 @@ package com.cs544.group7.userManagementService.controller;
 
 import java.util.Objects;
 
+import javax.ws.rs.Path;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,6 +12,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -69,10 +72,11 @@ public class JwtAuthenticationController {
 		return authService.validateToken(validateTokenRequest);
 	}
 
-	@RequestMapping(value = "/getById/{id}", method = RequestMethod.GET)
-	public UserDto validateToken(Long id) {
-		return authService.getById(id);
+	@RequestMapping(value = "/getById/{userId}", method = RequestMethod.GET)
+	public UserDto validateToken(@PathVariable Long userId) {
+		return authService.getById(userId);
 	}
+
 	/**
 	 * 
 	 * @param username

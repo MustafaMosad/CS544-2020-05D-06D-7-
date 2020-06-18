@@ -50,6 +50,8 @@ public class ReservationServiceImpl implements ReservationService {
 		return authenticationServiceCaller.getUserById(userId);
 	}
 
+	 @Autowired
+	 AuthenticationServiceCaller auth;
 	@Override
 	public List<ResponseReservation> getAllReservations() {
 

@@ -70,8 +70,8 @@ public class AuthenticationServiceCaller {
 		// build the request
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map, headers);
 
-		return restTemplate.exchange(lookupUrlFor(serviceName) + "/getById/{userId}", HttpMethod.GET, entity,
-				UserDto.class, userId).getBody();
+		return restTemplate.exchange(lookupUrlFor(serviceName) + "/getById/"+userId, HttpMethod.GET, entity,
+				UserDto.class).getBody();
 	}
 
 	private String lookupUrlFor(String appName) {
