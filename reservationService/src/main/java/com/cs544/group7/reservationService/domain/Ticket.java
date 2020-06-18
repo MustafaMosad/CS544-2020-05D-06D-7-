@@ -5,6 +5,9 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 public class Ticket {
@@ -16,15 +19,34 @@ public class Ticket {
 	private String airlineName;
 	private String depratureAirport;
 	private String arrivalAirport;
-	private String passsengerFirstName;
-	private String passengerLastName;
-	private Integer seatNumber;
 	private Date departureTime;
 	private Date departureDate;
 	private Date arrivalTime;
 	private Date arrivalDate;
-
+	@CreationTimestamp
 	private Date issuedAt;
+
+	@ManyToOne
+	private Reservation reservation;
+
+	public Ticket() {
+		super();
+	}
+
+	public Ticket(Integer flightNumber, String airlineName, String depratureAirport, String arrivalAirport,
+			 Date departureTime, Date departureDate,
+			Date arrivalTime, Date arrivalDate) {
+		super();
+		this.flightNumber = flightNumber;
+		this.airlineName = airlineName;
+		this.depratureAirport = depratureAirport;
+		this.arrivalAirport = arrivalAirport;
+		
+		this.departureTime = departureTime;
+		this.departureDate = departureDate;
+		this.arrivalTime = arrivalTime;
+		this.arrivalDate = arrivalDate;
+	}
 
 	public Long getId() {
 		return id;
@@ -66,29 +88,6 @@ public class Ticket {
 		this.arrivalAirport = arrivalAirport;
 	}
 
-	public String getPasssengerFirstName() {
-		return passsengerFirstName;
-	}
-
-	public void setPasssengerFirstName(String passsengerFirstName) {
-		this.passsengerFirstName = passsengerFirstName;
-	}
-
-	public String getPassengerLastName() {
-		return passengerLastName;
-	}
-
-	public void setPassengerLastName(String passengerLastName) {
-		this.passengerLastName = passengerLastName;
-	}
-
-	public Integer getSeatNumber() {
-		return seatNumber;
-	}
-
-	public void setSeatNumber(Integer seatNumber) {
-		this.seatNumber = seatNumber;
-	}
 
 	public Date getDepartureTime() {
 		return departureTime;

@@ -2,6 +2,7 @@ package com.cs544.group7.reservationService.service;
 
 import java.util.List;
 
+import com.cs544.group7.reservationService.domain.Ticket;
 import com.cs544.group7.reservationService.req.RequestReservation;
 import com.cs544.group7.reservationService.res.ResponseFlight;
 import com.cs544.group7.reservationService.res.ResponseReservation;
@@ -21,4 +22,6 @@ public interface ReservationService {
 	public ResponseFlight getFlight(Integer flightNumber);
 
 	List<ResponseReservation> getAgentReservations();
+
+	public List<Ticket> confirmReservation(String reservationCode);
 }

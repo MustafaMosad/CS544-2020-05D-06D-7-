@@ -15,10 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cs544.group7.reservationService.domain.Reservation;
+import com.cs544.group7.reservationService.domain.Ticket;
 import com.cs544.group7.reservationService.repository.ReservationRepository;
+import com.cs544.group7.reservationService.repository.TicketRepository;
 import com.cs544.group7.reservationService.req.RequestReservation;
 import com.cs544.group7.reservationService.res.ResponseFlight;
 import com.cs544.group7.reservationService.res.ResponseReservation;
+import com.cs544.group7.reservationService.res.TicketResponse;
 import com.cs544.group7.reservationService.security.resp.TokenValidationResponse;
 import com.cs544.group7.reservationService.util.CrudServiceCaller;
 
@@ -28,6 +31,9 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	private ServletContext servletContext;
+
+	@Autowired
+	private TicketRepository ticketRepository;
 
 	@Autowired
 	ReservationRepository reservationRepository;
@@ -132,5 +138,33 @@ public class ReservationServiceImpl implements ReservationService {
 	public ResponseFlight getFlight(Integer flightNumber) {
 		System.out.println("Also I am here");
 		return crudServiceCaller.getFlight(flightNumber);
+	}
+
+	@Override
+	public List<Ticket> confirmReservation(String reservationCode) {
+		Reservation reservation = reservationRepository.findByReservationCode(reservationCode);
+		List<Ticket> tickets = new ArrayList<Ticket>();
+		if (reservation != null) {
+			reservation.setConfirmed(true);
+
+			for (Integer flightNumber : reservation.getFlightNumbers()) {
+				ResponseFlight responseFlight = crudServiceCaller.getFlight(flightNumber);
+				Ticket ticket = new Ticket(flightNumber, responseFlight.getAirlineName(),
+						responseFlight.getDepartureAirport(), responseFlight.getArrivalAirport(),
+						responseFlight.getDepartureTime(), responseFlight.getDepartureDate(),
+						responseFlight.getArrivalTime(), responseFlight.getArrivalDate());
+				ticketRepository.save(ticket);
+				tickets.add(ticket);
+			}
+
+			sendConfirmationMail();
+			reservationRepository.save(reservation);
+		}
+		return tickets;
+	}
+
+	private void sendConfirmationMail() {
+		// TODO Auto-generated method stub
+
 	}
 }
