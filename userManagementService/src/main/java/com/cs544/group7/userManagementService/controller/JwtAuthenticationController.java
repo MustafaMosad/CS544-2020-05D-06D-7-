@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cs544.group7.userManagementService.exception.custom.AuthenticationException;
 import com.cs544.group7.userManagementService.res.TokenValidationResponse;
+import com.cs544.group7.userManagementService.res.UserDto;
 import com.cs544.group7.userManagementService.security.dto.req.JwtTokenRequest;
 import com.cs544.group7.userManagementService.security.dto.req.ValidateTokenRequest;
 import com.cs544.group7.userManagementService.security.dto.res.JwtTokenResponse;
@@ -68,6 +69,10 @@ public class JwtAuthenticationController {
 		return authService.validateToken(validateTokenRequest);
 	}
 
+	@RequestMapping(value = "/getById/{id}", method = RequestMethod.GET)
+	public UserDto validateToken(Long id) {
+		return authService.getById(id);
+	}
 	/**
 	 * 
 	 * @param username

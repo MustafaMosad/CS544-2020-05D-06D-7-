@@ -3,6 +3,8 @@ package com.cs544.group7.reservationService.security.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +35,9 @@ public class AuthenticationServiceCaller {
 
 	@Value("${validate-api-url}")
 	private String validateApiUrl;
+	
+	@Autowired
+	private ServletContext servletContext;
 
 	public TokenValidationResponse authenticateUser(String token) {
 		// create headers
