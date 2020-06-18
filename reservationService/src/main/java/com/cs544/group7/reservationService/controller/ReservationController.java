@@ -16,7 +16,7 @@ import com.cs544.group7.reservationService.domain.Ticket;
 import com.cs544.group7.reservationService.req.RequestReservation;
 import com.cs544.group7.reservationService.res.ResponseFlight;
 import com.cs544.group7.reservationService.res.ResponseReservation;
-import com.cs544.group7.reservationService.res.TicketResponse;
+import com.cs544.group7.reservationService.res.ResponseTicket;
 import com.cs544.group7.reservationService.service.ReservationService;
 
 @RestController
@@ -62,7 +62,7 @@ public class ReservationController {
 	}
 
 	@PutMapping(value = "/{reservationCode}/confirmReservation")
-	public List<Ticket> reservationConfirmation(@PathVariable String reservationCode) {
+	public List<ResponseTicket> reservationConfirmation(@PathVariable String reservationCode) {
 		return reservationService.confirmReservation(reservationCode);
 	}
 

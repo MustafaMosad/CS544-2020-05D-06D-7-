@@ -6,6 +6,7 @@ import com.cs544.group7.reservationService.domain.Ticket;
 import com.cs544.group7.reservationService.req.RequestReservation;
 import com.cs544.group7.reservationService.res.ResponseFlight;
 import com.cs544.group7.reservationService.res.ResponseReservation;
+import com.cs544.group7.reservationService.res.ResponseTicket;
 
 public interface ReservationService {
 
@@ -23,5 +24,5 @@ public interface ReservationService {
 
 	List<ResponseReservation> getAgentReservations();
 
-	public List<Ticket> confirmReservation(String reservationCode);
+	public List<ResponseTicket> confirmReservation(String reservationCode);
 }

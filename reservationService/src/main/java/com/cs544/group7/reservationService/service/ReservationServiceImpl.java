@@ -21,7 +21,7 @@ import com.cs544.group7.reservationService.repository.TicketRepository;
 import com.cs544.group7.reservationService.req.RequestReservation;
 import com.cs544.group7.reservationService.res.ResponseFlight;
 import com.cs544.group7.reservationService.res.ResponseReservation;
-import com.cs544.group7.reservationService.res.TicketResponse;
+import com.cs544.group7.reservationService.res.ResponseTicket;
 import com.cs544.group7.reservationService.security.resp.TokenValidationResponse;
 import com.cs544.group7.reservationService.util.CrudServiceCaller;
 
@@ -140,26 +140,35 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public List<Ticket> confirmReservation(String reservationCode) {
+	public List<ResponseTicket> confirmReservation(String reservationCode) {
 		Reservation reservation = reservationRepository.findByReservationCode(reservationCode);
 		List<Ticket> tickets = new ArrayList<Ticket>();
+		List<ResponseTicket> responseTickets = new ArrayList<ResponseTicket>();
 		if (reservation != null) {
 			reservation.setConfirmed(true);
 
 			for (Integer flightNumber : reservation.getFlightNumbers()) {
 				ResponseFlight responseFlight = crudServiceCaller.getFlight(flightNumber);
+				
 				Ticket ticket = new Ticket(flightNumber, responseFlight.getAirlineName(),
 						responseFlight.getDepartureAirport(), responseFlight.getArrivalAirport(),
 						responseFlight.getDepartureTime(), responseFlight.getDepartureDate(),
-						responseFlight.getArrivalTime(), responseFlight.getArrivalDate());
+						responseFlight.getArrivalTime(), responseFlight.getArrivalDate(), reservation);
 				ticketRepository.save(ticket);
+				responseTickets.add(convertTichetToResponseTicket(ticket));
 				tickets.add(ticket);
 			}
 
 			sendConfirmationMail();
 			reservationRepository.save(reservation);
 		}
-		return tickets;
+		return responseTickets;
+	}
+	
+	private ResponseTicket  convertTichetToResponseTicket(Ticket ticket){
+		return new ResponseTicket(ticket.getFlightNumber(), ticket.getAirlineName(), ticket.getDepratureAirport(),
+				ticket.getArrivalAirport(), ticket.getDepartureTime(), ticket.getDepartureDate(), ticket.getArrivalTime(),
+						ticket.getArrivalDate(),ticket.getIssuedAt(), ticket.getReservation().getReservationCode());
 	}
 
 	private void sendConfirmationMail() {
