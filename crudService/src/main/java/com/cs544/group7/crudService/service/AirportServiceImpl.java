@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
+import javax.ws.rs.core.Context;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import com.cs544.group7.crudService.security.resp.TokenValidationResponse;
 @Transactional
 public class AirportServiceImpl implements AirportService {
 
-	@Autowired
+	@Context
 	private ServletContext servletContext;
 
 	@Autowired

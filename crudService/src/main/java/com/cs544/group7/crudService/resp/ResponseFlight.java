@@ -32,8 +32,9 @@ public class ResponseFlight {
 	public ResponseFlight() {
 	}
 
-	public ResponseFlight(Integer flightNumber, String departureAirport, Date departureTime, Date departureDate,
+	public ResponseFlight(Integer id, Integer flightNumber, String departureAirport, Date departureTime, Date departureDate,
 			String arrivalAirport, Date arrivalTime, Date arrivalDate, String airlineName) {
+		this.id = id;
 		this.flightNumber = flightNumber;
 		this.departureAirport = departureAirport;
 		this.departureTime = departureTime;
@@ -43,6 +44,14 @@ public class ResponseFlight {
 		this.arrivalTime = arrivalTime;
 		this.arrivalDate = arrivalDate;
 		this.airlineName = airlineName;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getFlightNumber() {
