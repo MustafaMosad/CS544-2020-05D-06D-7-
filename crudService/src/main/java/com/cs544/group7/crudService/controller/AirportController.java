@@ -3,6 +3,7 @@ package com.cs544.group7.crudService.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class AirportController {
 	}
 
 	@PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String addAirport(@RequestBody RequestAirport requestAirport) {
 		System.out.println("From here");
 		airportService.addAirport(requestAirport);
