@@ -62,10 +62,11 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	private ResponseReservation convertReservationToResponseReservation(Reservation reservation) {
+		UserDto passenger = getUserInformation(reservation.getPassengerId());
 		return new ResponseReservation(reservation.getReservationCode(),
 				reservedFlights(reservation.getFlightNumbers()), reservation.isConfirmed(), reservation.isCancelled(), reservation.getCreatedAt(),
-				reservation.getPassengerId(), getPasssengerFirstName(reservation.getPassengerId()),
-				getPasssengerFirstName(reservation.getPassengerId()));
+				reservation.getPassengerId(), passenger.getFirstName(),
+				passenger.getListName());
 	}
 
 	private List<ResponseFlight> reservedFlights(Set<Integer> reservedFlightNumbers) {
@@ -78,15 +79,11 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservedFlights;
 		}
 		
-	//this is temporal==============================================we need to get it from UserManagementService
-	private String getPasssengerFirstName(Long passengerId) {
-		return passengerId.toString();
-	}
-
 	@Override
 	public void addNewReservation(RequestReservation requestReservation) {
 		System.out.println(requestReservation.getPassengerId());
-		if(getUserInformation(requestReservation.getPassengerId())==null) {
+		UserDto passenger = getUserInformation(requestReservation.getPassengerId());
+		if(!passenger.isExist()) {
 			System.out.println("passenger confirmation failed");
 			return;
 		}
