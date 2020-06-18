@@ -20,6 +20,13 @@ public class AirlineController {
     @Autowired
     AirlineService airlineService;
 
+    @GetMapping
+    public List<AirlineResponse> getAllAirlines(){
+
+        return airlineService.getAllAirlines();
+    }
+
+
     @PostMapping
     public void saveAirline(@RequestBody AirlineRequest airline){
 
@@ -29,17 +36,6 @@ public class AirlineController {
     @GetMapping("/{id}")
     public AirlineResponse getAirlineById(@PathVariable Long id){
        return airlineService.getAirlineById(id);
-    }
-
-    @GetMapping(params = {"name"})
-    public AirlineResponse getAirlineByName(@RequestParam String name){
-        return airlineService.getAirlineByName(name);
-    }
-
-    @GetMapping
-    public List<AirlineResponse> getAllAirlines(){
-
-        return airlineService.getAllAirlines();
     }
 
     @DeleteMapping("/{id}")
@@ -57,9 +53,14 @@ public class AirlineController {
         airlineService.updateAirline(id, code, name);
     }
 
-    @GetMapping(params = {"airlineCode"})
-    public List<AirlineResponse> getAirlineByAirportCode(@RequestParam String airlineCode){
-        return airlineService.getAirlineByAirportCode(airlineCode);
+    @GetMapping(value = "/byCode",params = {"airportCode"})
+    public List<AirlineResponse> getAirlineByAirportCode(@RequestParam String airportCode){
+        return airlineService.getAirlineByAirportCode(airportCode);
+    }
+
+    @GetMapping(value = "/byName",params = {"name"})
+    public AirlineResponse getAirlineByName(@RequestParam String name){
+        return airlineService.getAirlineByName(name);
     }
 
 }
